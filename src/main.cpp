@@ -1,6 +1,11 @@
-#include <iostream>
+#include <QApplication>
 
-int main() 
+#include "CalculatorWidget.h"
+
+int main(int argc, char* argv[])
 {
-	return 0;
+    QApplication app(argc, argv);
+	CalculatorWidget calculator;
+	calculator.show();
+	return app.exec();
 }
