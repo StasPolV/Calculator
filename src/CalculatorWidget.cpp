@@ -123,4 +123,6 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	main_layout->setContentsMargins(0, 0, 0, 0);
 	main_layout->addWidget(m_label, 1);
 	main_layout->addLayout(hbox_layout, 5);
+
+	resize(400, 300);
 }
