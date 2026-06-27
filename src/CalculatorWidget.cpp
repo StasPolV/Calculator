@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFont>
+#include <QDebug>
 
 namespace 
 {
@@ -31,6 +32,7 @@ namespace
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
+	setFocusPolicy(Qt::StrongFocus);
 	m_buttons.resize(CalculatorButtons::Count, nullptr);
 
 	for (size_t i = 0; i < m_buttons.size(); ++i) 
@@ -125,4 +127,63 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	main_layout->addLayout(hbox_layout, 5);
 
 	resize(400, 300);
+
+}
+
+void CalculatorWidget::keyPressEvent(QKeyEvent* event) 
+{
+
+	switch (auto key = event->key(); key)
+	{
+	case Qt::Key_0:
+		labelAddition("0");
+		break;
+	case Qt::Key_1:
+		labelAddition("1");
+		break;
+	case Qt::Key_2:
+		labelAddition("2");
+		break;
+	case Qt::Key_3:
+		labelAddition("3");
+		break;
+	case Qt::Key_4:
+		labelAddition("4");
+		break;
+	case Qt::Key_5:
+		labelAddition("5");
+		break;
+	case Qt::Key_6:
+		labelAddition("6");
+		break;
+	case Qt::Key_7:
+		labelAddition("7");
+		break;
+	case Qt::Key_8:
+		labelAddition("8");
+		break;
+	case Qt::Key_9:
+		labelAddition("9");
+		break;
+	case Qt::Key_Plus:
+		labelAddition("+");
+		break;
+	case Qt::Key_Minus:
+		labelAddition("-");
+		break;
+	case Qt::Key_Asterisk:
+		labelAddition("*");
+		break;
+	case Qt::Key_Slash:
+		labelAddition("÷");
+		break;
+	default:
+		QWidget::keyPressEvent(event);
+		break;
+	}
+}
+
+void CalculatorWidget::labelAddition(const QString& text)
+{
+	m_label->setText(m_label->text() + text);
 }
