@@ -23,7 +23,7 @@ namespace
 		BUTTON_8,
 		BUTTON_9,
 		BUTTON_RESULT,
-		BUTTON_COMMA,
+		BUTTON_DOT,
 		BUTTON_ADDITION,
 		BUTTON_SUBTRACTION,
 		BUTTON_DIVISION,
@@ -37,6 +37,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	setFocusPolicy(Qt::StrongFocus);
 	m_buttons.resize(static_cast<size_t>(CalculatorButtons::Count), nullptr);
 
+	m_calc = std::make_unique<Calculator>(this);
 
 	struct ButtonDef 
 	{
@@ -47,8 +48,8 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	static const std::array<ButtonDef, static_cast<size_t>(CalculatorButtons::Count)> defs = { {
 		{CalculatorButtons::BUTTON_0, "0"}, {CalculatorButtons::BUTTON_1, "1"}, {CalculatorButtons::BUTTON_2, "2"}, {CalculatorButtons::BUTTON_3, "3"},
 		{CalculatorButtons::BUTTON_4, "4"}, {CalculatorButtons::BUTTON_5, "5"}, {CalculatorButtons::BUTTON_6, "6"}, {CalculatorButtons::BUTTON_7, "7"},
-		{CalculatorButtons::BUTTON_8, "8"}, {CalculatorButtons::BUTTON_9, "9"}, {CalculatorButtons::BUTTON_RESULT, "="}, {CalculatorButtons::BUTTON_COMMA, ","},
-		{CalculatorButtons::BUTTON_ADDITION, "+"}, {CalculatorButtons::BUTTON_SUBTRACTION, "-"}, {CalculatorButtons::BUTTON_DIVISION, "÷"}, {CalculatorButtons::BUTTON_MULTIPLICATION, "*"}
+		{CalculatorButtons::BUTTON_8, "8"}, {CalculatorButtons::BUTTON_9, "9"}, {CalculatorButtons::BUTTON_RESULT, "="}, {CalculatorButtons::BUTTON_DOT, "."},
+		{CalculatorButtons::BUTTON_ADDITION, "+"}, {CalculatorButtons::BUTTON_SUBTRACTION, "-"}, {CalculatorButtons::BUTTON_DIVISION, "/"}, {CalculatorButtons::BUTTON_MULTIPLICATION, "*"}
 	} };
 
 	for (auto& [id, label] : defs) 
@@ -71,7 +72,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_2)], 2, 1);
 	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_3)], 2, 2);
 	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_0)], 3, 0);
-	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_COMMA)], 3, 1);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_DOT)], 3, 1);
 	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_RESULT)], 3, 2);
 
 	QVBoxLayout* vbox_layout = new QVBoxLayout;
@@ -112,12 +113,18 @@ void CalculatorWidget::keyPressEvent(QKeyEvent* event)
 	static const  std::map<int, QString> key_map = {
 		{Qt::Key_0, "0"}, {Qt::Key_1, "1"}, {Qt::Key_2, "2"}, {Qt::Key_3, "3"}, {Qt::Key_4, "4"}, 
 		{Qt::Key_5, "5"}, {Qt::Key_6, "6"}, {Qt::Key_7, "7"}, {Qt::Key_8, "8"}, 
-		{Qt::Key_9, "9"}, {Qt::Key_Plus, "+"}, {Qt::Key_Minus, "-"}, {Qt::Key_Asterisk, "*"}, {Qt::Key_Slash, "÷"},
+		{Qt::Key_9, "9"}, {Qt::Key_Plus, "+"}, {Qt::Key_Minus, "-"}, {Qt::Key_Asterisk, "*"}, {Qt::Key_Slash, "/"},
 	};
 
-	if (auto it = key_map.find(event->key()); it != key_map.end()) 
+
+	auto key = event->key();
+	if (auto it = key_map.find(key); it != key_map.end()) 
 	{
 		labelAddition(it->second);
+	}
+	else if (key == Qt::Key_Enter || key == Qt::Key_Equal) 
+	{
+		// TODO: evaluate calc
 	}
 	else 
 	{
