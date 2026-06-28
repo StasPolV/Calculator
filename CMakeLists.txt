@@ -11,7 +11,7 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES src/main.cpp src/Calculator.cpp src/Calculator.h src/CalculatorWidget.cpp src/CalculatorWidget.h)
+set(PROJECT_SOURCES src/main.cpp src/Calculator.cpp src/Calculator.h src/CalculatorWidget.cpp src/CalculatorWidget.h src/RpnEvaluator.cpp src/RpnEvaluator.h)
 
 add_executable(Calculator ${PROJECT_SOURCES})
 

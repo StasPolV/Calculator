@@ -7,7 +7,10 @@
 #include <QKeyEvent>
 #include <QString>
 
+#include "Calculator.h"
+
 #include <vector>
+#include <memory>
 
 class CalculatorWidget : public QWidget 
 {
@@ -20,8 +23,9 @@ protected:
 	void keyPressEvent(QKeyEvent* event) override;
 
 private:
-	void labelAddition(const QString& text);
+	// void labelAddition(const QString& text);
 
+	std::unique_ptr<Calculator> m_calc;
 	std::vector<QPushButton*> m_buttons;
 	QLabel* m_label;
 };

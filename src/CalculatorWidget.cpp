@@ -105,26 +105,61 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	main_layout->addLayout(hbox_layout, 5);
 
 	resize(400, 300);
+
+	connect(m_calc.get(), &Calculator::expressionChanged, [this](const std::string& expression) {
+		m_label->setText(QString::fromStdString(expression));
+		});
+
+	connect(m_calc.get(), &Calculator::evaluated, [this](std::optional<double> value) {
+		if (value) 
+		{
+			m_label->setText(QString::number(value.value()));
+		}
+		else 
+		{
+			m_label->setText("");
+		}
+		});
 }
 
 void CalculatorWidget::keyPressEvent(QKeyEvent* event) 
 {
 
-	static const  std::map<int, QString> key_map = {
+	static const  std::map<int, std::string> number_map = {
 		{Qt::Key_0, "0"}, {Qt::Key_1, "1"}, {Qt::Key_2, "2"}, {Qt::Key_3, "3"}, {Qt::Key_4, "4"}, 
-		{Qt::Key_5, "5"}, {Qt::Key_6, "6"}, {Qt::Key_7, "7"}, {Qt::Key_8, "8"}, 
-		{Qt::Key_9, "9"}, {Qt::Key_Plus, "+"}, {Qt::Key_Minus, "-"}, {Qt::Key_Asterisk, "*"}, {Qt::Key_Slash, "/"},
+		{Qt::Key_5, "5"}, {Qt::Key_6, "6"}, {Qt::Key_7, "7"}, {Qt::Key_8, "8"}, {Qt::Key_9, "9"}
+	};
+
+	static const  std::map<int, char> operator_map = {
+		{Qt::Key_Plus, '+'}, {Qt::Key_Minus, '-'}, {Qt::Key_Asterisk, '*'}, {Qt::Key_Slash, '/'}
 	};
 
 
 	auto key = event->key();
-	if (auto it = key_map.find(key); it != key_map.end()) 
+	if (auto it = number_map.find(key); it != number_map.end())
 	{
-		labelAddition(it->second);
+		// labelAddition(it->second);
+		m_calc->addInt(std::stoi(it->second));
+	}
+	else if (auto it = operator_map.find(key); it != operator_map.end()) 
+	{
+		m_calc->addOperator(it->second);
+	}
+	else if (key == Qt::Key_ParenLeft) 
+	{
+		m_calc->addOpenParenthesis();
+	}
+	else if (key == Qt::Key_ParenRight) 
+	{
+		m_calc->addCloseParenthesis();
+	}
+	else if (key == Qt::Key_Period) 
+	{
+		m_calc->addDot();
 	}
 	else if (key == Qt::Key_Enter || key == Qt::Key_Equal) 
 	{
-		// TODO: evaluate calc
+		m_calc->evaluate();
 	}
 	else 
 	{
@@ -132,7 +167,7 @@ void CalculatorWidget::keyPressEvent(QKeyEvent* event)
 	}
 }
 
-void CalculatorWidget::labelAddition(const QString& text)
-{
-	m_label->setText(m_label->text() + text);
-}
+//void CalculatorWidget::labelAddition(const QString& text)
+//{
+//	m_label->setText(m_label->text() + text);
+//}
