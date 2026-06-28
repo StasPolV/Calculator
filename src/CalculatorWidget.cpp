@@ -116,6 +116,21 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 			m_label->setText(QString::number(value.value()));
 		}
 		});
+
+	for (int i = 0; i <= 9; ++i) {
+		size_t index = static_cast<size_t>(CalculatorButtons::BUTTON_0) + i;
+
+		connect(m_buttons[index], &QPushButton::clicked, [this, index]() {
+			m_calc->addInt(index);
+			});
+	}
+
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_DOT)], &QPushButton::clicked, [this]() { m_calc->addDot(); });
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_RESULT)], &QPushButton::clicked, [this]() { m_calc->evaluate(); });
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_ADDITION)], &QPushButton::clicked, [this]() { m_calc->addOperator('+'); });
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_SUBTRACTION)], &QPushButton::clicked, [this]() { m_calc->addOperator('-'); });
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_DIVISION)], &QPushButton::clicked, [this]() { m_calc->addOperator('/'); });
+	connect(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_MULTIPLICATION)], &QPushButton::clicked, [this]() { m_calc->addOperator('*'); });
 }
 
 void CalculatorWidget::keyPressEvent(QKeyEvent* event) 
