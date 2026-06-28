@@ -6,9 +6,11 @@
 #include <QFont>
 #include <QDebug>
 
+#include <map>
+
 namespace 
 {
-	enum CalculatorButtons 
+	enum class CalculatorButtons 
 	{
 		BUTTON_0,
 		BUTTON_1,
@@ -33,77 +35,52 @@ namespace
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
 	setFocusPolicy(Qt::StrongFocus);
-	m_buttons.resize(CalculatorButtons::Count, nullptr);
+	m_buttons.resize(static_cast<size_t>(CalculatorButtons::Count), nullptr);
 
-	for (size_t i = 0; i < m_buttons.size(); ++i) 
+
+	struct ButtonDef 
 	{
-		m_buttons[i] = new QPushButton(this);
-	}
+		CalculatorButtons id;
+		QString label;
+	};
 
-	for (QPushButton* button : m_buttons)
+	static const std::array<ButtonDef, static_cast<size_t>(CalculatorButtons::Count)> defs = { {
+		{CalculatorButtons::BUTTON_0, "0"}, {CalculatorButtons::BUTTON_1, "1"}, {CalculatorButtons::BUTTON_2, "2"}, {CalculatorButtons::BUTTON_3, "3"},
+		{CalculatorButtons::BUTTON_4, "4"}, {CalculatorButtons::BUTTON_5, "5"}, {CalculatorButtons::BUTTON_6, "6"}, {CalculatorButtons::BUTTON_7, "7"},
+		{CalculatorButtons::BUTTON_8, "8"}, {CalculatorButtons::BUTTON_9, "9"}, {CalculatorButtons::BUTTON_RESULT, "="}, {CalculatorButtons::BUTTON_COMMA, ","},
+		{CalculatorButtons::BUTTON_ADDITION, "+"}, {CalculatorButtons::BUTTON_SUBTRACTION, "-"}, {CalculatorButtons::BUTTON_DIVISION, "÷"}, {CalculatorButtons::BUTTON_MULTIPLICATION, "*"}
+	} };
+
+	for (auto& [id, label] : defs) 
 	{
-		if (button) {
-			button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-		}
+		auto& button = m_buttons[static_cast<size_t>(id)];
+		button = new QPushButton(label, this);
+		button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	}
-
-	QPushButton*& button_0 = m_buttons[CalculatorButtons::BUTTON_0];
-	QPushButton*& button_1 = m_buttons[CalculatorButtons::BUTTON_1];
-	QPushButton*& button_2 = m_buttons[CalculatorButtons::BUTTON_2];
-	QPushButton*& button_3 = m_buttons[CalculatorButtons::BUTTON_3];
-	QPushButton*& button_4 = m_buttons[CalculatorButtons::BUTTON_4];
-	QPushButton*& button_5 = m_buttons[CalculatorButtons::BUTTON_5];
-	QPushButton*& button_6 = m_buttons[CalculatorButtons::BUTTON_6];
-	QPushButton*& button_7 = m_buttons[CalculatorButtons::BUTTON_7];
-	QPushButton*& button_8 = m_buttons[CalculatorButtons::BUTTON_8];
-	QPushButton*& button_9 = m_buttons[CalculatorButtons::BUTTON_9];
-	QPushButton*& button_result = m_buttons[CalculatorButtons::BUTTON_RESULT];
-	QPushButton*& button_comma = m_buttons[CalculatorButtons::BUTTON_COMMA];
-	QPushButton*& button_addition = m_buttons[CalculatorButtons::BUTTON_ADDITION];
-	QPushButton*& button_subtraction = m_buttons[CalculatorButtons::BUTTON_SUBTRACTION];
-	QPushButton*& button_division = m_buttons[CalculatorButtons::BUTTON_DIVISION];
-	QPushButton*& button_multiplication = m_buttons[CalculatorButtons::BUTTON_MULTIPLICATION];
-
-	button_0->setText("0");
-	button_1->setText("1");
-	button_2->setText("2");
-	button_3->setText("3");
-	button_4->setText("4");
-	button_5->setText("5");
-	button_6->setText("6");
-	button_7->setText("7");
-	button_8->setText("8");
-	button_9->setText("9");
-	button_result->setText("=");
-	button_comma->setText(",");
-	button_addition->setText("+");
-	button_subtraction->setText("-");
-	button_division->setText("÷");
-	button_multiplication->setText("*");
 
 	QGridLayout* grid_layout = new QGridLayout;
 	grid_layout->setSpacing(0);
 	grid_layout->setContentsMargins(0, 0, 0, 0);
-	grid_layout->addWidget(button_7, 0, 0);
-	grid_layout->addWidget(button_8, 0, 1);
-	grid_layout->addWidget(button_9, 0, 2);
-	grid_layout->addWidget(button_4, 1, 0);
-	grid_layout->addWidget(button_5, 1, 1);
-	grid_layout->addWidget(button_6, 1, 2);
-	grid_layout->addWidget(button_1, 2, 0);
-	grid_layout->addWidget(button_2, 2, 1);
-	grid_layout->addWidget(button_3, 2, 2);
-	grid_layout->addWidget(button_0, 3, 0);
-	grid_layout->addWidget(button_comma, 3, 1);
-	grid_layout->addWidget(button_result, 3, 2);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_7)], 0, 0);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_8)], 0, 1);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_9)], 0, 2);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_4)], 1, 0);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_5)], 1, 1);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_6)], 1, 2);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_1)], 2, 0);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_2)], 2, 1);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_3)], 2, 2);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_0)], 3, 0);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_COMMA)], 3, 1);
+	grid_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_RESULT)], 3, 2);
 
 	QVBoxLayout* vbox_layout = new QVBoxLayout;
 	vbox_layout->setSpacing(0);
 	vbox_layout->setContentsMargins(0, 0, 0, 0);
-	vbox_layout->addWidget(button_division);
-	vbox_layout->addWidget(button_multiplication);
-	vbox_layout->addWidget(button_subtraction);
-	vbox_layout->addWidget(button_addition);
+	vbox_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_DIVISION)]);
+	vbox_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_MULTIPLICATION)]);
+	vbox_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_SUBTRACTION)]);
+	vbox_layout->addWidget(m_buttons[static_cast<size_t>(CalculatorButtons::BUTTON_ADDITION)]);
 
 	QFont label_font;
 	label_font.setFamily("Arial");
@@ -127,59 +104,24 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 	main_layout->addLayout(hbox_layout, 5);
 
 	resize(400, 300);
-
 }
 
 void CalculatorWidget::keyPressEvent(QKeyEvent* event) 
 {
 
-	switch (auto key = event->key(); key)
+	static const  std::map<int, QString> key_map = {
+		{Qt::Key_0, "0"}, {Qt::Key_1, "1"}, {Qt::Key_2, "2"}, {Qt::Key_3, "3"}, {Qt::Key_4, "4"}, 
+		{Qt::Key_5, "5"}, {Qt::Key_6, "6"}, {Qt::Key_7, "7"}, {Qt::Key_8, "8"}, 
+		{Qt::Key_9, "9"}, {Qt::Key_Plus, "+"}, {Qt::Key_Minus, "-"}, {Qt::Key_Asterisk, "*"}, {Qt::Key_Slash, "÷"},
+	};
+
+	if (auto it = key_map.find(event->key()); it != key_map.end()) 
 	{
-	case Qt::Key_0:
-		labelAddition("0");
-		break;
-	case Qt::Key_1:
-		labelAddition("1");
-		break;
-	case Qt::Key_2:
-		labelAddition("2");
-		break;
-	case Qt::Key_3:
-		labelAddition("3");
-		break;
-	case Qt::Key_4:
-		labelAddition("4");
-		break;
-	case Qt::Key_5:
-		labelAddition("5");
-		break;
-	case Qt::Key_6:
-		labelAddition("6");
-		break;
-	case Qt::Key_7:
-		labelAddition("7");
-		break;
-	case Qt::Key_8:
-		labelAddition("8");
-		break;
-	case Qt::Key_9:
-		labelAddition("9");
-		break;
-	case Qt::Key_Plus:
-		labelAddition("+");
-		break;
-	case Qt::Key_Minus:
-		labelAddition("-");
-		break;
-	case Qt::Key_Asterisk:
-		labelAddition("*");
-		break;
-	case Qt::Key_Slash:
-		labelAddition("÷");
-		break;
-	default:
+		labelAddition(it->second);
+	}
+	else 
+	{
 		QWidget::keyPressEvent(event);
-		break;
 	}
 }
 
