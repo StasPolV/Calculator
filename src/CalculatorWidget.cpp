@@ -152,7 +152,19 @@ void CalculatorWidget::keyPressEvent(QKeyEvent* event)
 	{
 		m_calc->addDot();
 	}
-	else if (key == Qt::Key_Enter || key == Qt::Key_Equal) 
+	else if (key == Qt::Key_Backspace) 
+	{
+		auto text = m_label->text();
+		if (!text.isEmpty()) 
+		{
+			m_calc->changeExpression((text.chopped(1)).toStdString());
+		}
+	}
+	else if (key == Qt::Key_Space) 
+	{
+		m_calc->changeExpression("");
+	}
+	else if (key == Qt::Key_Enter || key == Qt::Key_Equal || key == Qt::Key_Return)
 	{
 		m_calc->evaluate();
 	}

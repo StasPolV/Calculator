@@ -15,6 +15,12 @@ Calculator::Calculator(QObject* parent) : QObject(parent)
 
 }
 
+void Calculator::changeExpression(const std::string& expression) 
+{
+    m_expression = expression;
+    emit expressionChanged(m_expression);
+}
+
 std::optional<double> Calculator::evaluate(const std::string& expression) 
 {
     if (!validateExpression(expression)) 

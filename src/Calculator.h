@@ -29,6 +29,8 @@ public:
 	bool addOpenParenthesis();
 	bool addCloseParenthesis();
 	bool addDot();
+	
+	void changeExpression(const std::string& expression);
 
 private:
 	bool validateExpression(std::string_view expression) const;
