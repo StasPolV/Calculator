@@ -23,7 +23,6 @@ protected:
 	void keyPressEvent(QKeyEvent* event) override;
 
 private:
-	// void labelAddition(const QString& text);
 
 	std::unique_ptr<Calculator> m_calc;
 	std::vector<QPushButton*> m_buttons;

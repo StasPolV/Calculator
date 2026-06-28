@@ -61,18 +61,6 @@ bool Calculator::addInt(int number)
 	return false;
 }
 
-//bool Calculator::addDouble(double number)
-//{
-//	std::string expression = m_expression + std::to_string(number);
-//	if (validateExpression(expression))
-//	{
-//		m_expression += std::to_string(number);
-//		return true;
-//	}
-//
-//	return false;
-//}
-
 bool Calculator::addOperator(char op)
 {
 	std::string expression = m_expression + op;

@@ -115,10 +115,6 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 		{
 			m_label->setText(QString::number(value.value()));
 		}
-		else 
-		{
-			m_label->setText("");
-		}
 		});
 }
 
@@ -138,7 +134,6 @@ void CalculatorWidget::keyPressEvent(QKeyEvent* event)
 	auto key = event->key();
 	if (auto it = number_map.find(key); it != number_map.end())
 	{
-		// labelAddition(it->second);
 		m_calc->addInt(std::stoi(it->second));
 	}
 	else if (auto it = operator_map.find(key); it != operator_map.end()) 
@@ -166,8 +161,3 @@ void CalculatorWidget::keyPressEvent(QKeyEvent* event)
 		QWidget::keyPressEvent(event);
 	}
 }
-
-//void CalculatorWidget::labelAddition(const QString& text)
-//{
-//	m_label->setText(m_label->text() + text);
-//}

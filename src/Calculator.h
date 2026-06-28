@@ -25,7 +25,6 @@ public:
 	std::optional<double> evaluate();
 
 	bool addInt(int number);
-	// bool addDouble(double number);
 	bool addOperator(char op);
 	bool addOpenParenthesis();
 	bool addCloseParenthesis();
