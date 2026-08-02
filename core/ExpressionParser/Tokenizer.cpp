@@ -57,6 +57,8 @@ void Tokenizer::Tokenize(const std::string& expression)
     {
         m_tokens.emplace_back(TokenType::NUMBER, expression.substr(start_digit_index));
     }
+
+    m_tokens.emplace_back(TokenType::END_OF_LINE, "Empty");
 }
 
 const std::vector<Token>& Tokenizer::GetTokens() const 

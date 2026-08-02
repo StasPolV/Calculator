@@ -12,6 +12,7 @@ enum TokenType
     MULTIPLICATION,
     LPAREN,
     RPAREN,
+    END_OF_LINE,
 };
 
 struct Token 
