@@ -1,0 +1,46 @@
+#include "Evaluator.h"
+
+double Evaluator::GetResult() const 
+{
+	return result;
+}
+
+void Evaluator::Evaluate(std::unique_ptr<Node> ast_root)
+{
+	result = EvaluateHelper(ast_root.get());
+}
+
+double Evaluator::EvaluateHelper(Node* cur_node)
+{
+	if (cur_node == nullptr) 
+	{
+		return 0;
+	}
+	if (cur_node->type == TokenType::NUMBER)
+	{
+		return cur_node->value;
+	}
+
+	double left = EvaluateHelper(cur_node->left.get());
+	double right = EvaluateHelper(cur_node->right.get());
+
+	double sum = 0;
+
+	switch (cur_node->type) 
+	{
+	case TokenType::MULTIPLICATION:
+		sum =  left * right;
+		break;
+	case TokenType::DIVISION:
+		sum =  left / right;
+		break;
+	case TokenType::MINUS:
+		sum =  left - right;
+		break;
+	case TokenType::PLUS:
+		sum =  left + right;
+		break;
+	}
+
+	return sum;
+}

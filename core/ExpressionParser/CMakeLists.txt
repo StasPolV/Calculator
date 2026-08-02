@@ -1,3 +1,3 @@
 add_executable(ExpressionParser 
-				Tokenizer.cpp Parser.cpp 
-				Tokenizer.h Parser.h)
+				Tokenizer.cpp Parser.cpp Evaluator.cpp
+				Tokenizer.h Parser.h Evaluator.h)
