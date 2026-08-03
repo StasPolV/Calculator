@@ -27,3 +27,5 @@ endif()
 
 add_subdirectory(core/ExpressionParser)
 add_subdirectory(core/CalculatorModel)
+add_subdirectory(gui)
+add_subdirectory(controller)
