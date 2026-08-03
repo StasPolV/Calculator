@@ -8,10 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 qt_standard_project_setup()
 
-qt_add_executable(Calculator core/main.cpp)
-
-target_link_libraries(Calculator PRIVATE Qt6::Core Qt6::Widgets)
-
 option(BUILD_TESTING "Build unit tests" ON)
 
 if (BUILD_TESTING)
@@ -29,3 +25,11 @@ add_subdirectory(core/ExpressionParser)
 add_subdirectory(core/CalculatorModel)
 add_subdirectory(gui)
 add_subdirectory(controller)
+
+qt_add_executable(Calculator core/main.cpp)
+
+target_link_libraries(Calculator PRIVATE
+    CalculatorController
+    Qt6::Core
+    Qt6::Widgets
+)
