@@ -1,64 +1,56 @@
 #include "CalculatorWidget.h"
-
-#include <QLayout>
+#include <QGridLayout>
 #include <QPushButton>
-#include <QString>
+
+namespace
+{
+    QPushButton* createButton(const QString& text, QWidget* parent)
+    {
+        auto* button = new QPushButton(text, parent);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        return button;
+    }
+}
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
-	m_line_edit = new QLineEdit(this);
-	m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_line_edit = new QLineEdit(this);
+    m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-	QGridLayout* main_layout = new QGridLayout(this);
+    auto* main_layout = new QGridLayout(this);
+    main_layout->addWidget(m_line_edit, 0, 0, 1, 4);
+
+    struct ButtonInfo { QString text; int row; int col; };
+
+    static const std::vector<ButtonInfo> buttons = {
+        {"7", 1, 0}, {"8", 1, 1}, {"9", 1, 2},
+        {"4", 2, 0}, {"5", 2, 1}, {"6", 2, 2},
+        {"1", 3, 0}, {"2", 3, 1}, {"3", 3, 2},
+        {"0", 4, 0}, {".", 4, 1}, {"=", 4, 2},
+        {"/", 1, 3}, {"*", 2, 3}, {"-", 3, 3}, {"+", 4, 3},
+    };
+
+    for (const auto& info : buttons) 
+    {
+        main_layout->addWidget(createButton(info.text, this), info.row, info.col);
+    }
+
+    main_layout->setSpacing(0);
+    main_layout->setContentsMargins(0, 0, 0, 0);
+    main_layout->setRowStretch(0, 1);
+    for (int row = 1; row <= 4; ++row) 
+    {
+        main_layout->setRowStretch(row, 2);
+    }
 
 
-	main_layout->addWidget(m_line_edit, 0, 0, 1, 3);
+}
 
-	/*for (size_t i = 9; i >= 0; --i) 
-	{
-		QPushButton* button = new QPushButton(QString::fromStdString(std::to_string(i)), this);
+void CalculatorWidget::resizeEvent(QResizeEvent* event) 
+{
+    QWidget::resizeEvent(event);
 
-
-	}*/
-
-	QPushButton* button_7 = new QPushButton("7", this);
-	button_7->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_8 = new QPushButton("8", this);
-	button_8->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_9 = new QPushButton("9", this);
-	button_9->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-	QPushButton* button_4 = new QPushButton("4", this);
-	button_4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_5 = new QPushButton("5", this);
-	button_5->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_6 = new QPushButton("6", this);
-	button_6->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-	QPushButton* button_1 = new QPushButton("1", this);
-	button_1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_2 = new QPushButton("2", this);
-	button_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	QPushButton* button_3 = new QPushButton("3", this);
-	button_3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-	main_layout->addWidget(button_7, 1, 0);
-	main_layout->addWidget(button_8, 1, 1);
-	main_layout->addWidget(button_9, 1, 2);
-
-	main_layout->addWidget(button_4, 2, 0);
-	main_layout->addWidget(button_5, 2, 1);
-	main_layout->addWidget(button_6, 2, 2);
-
-	main_layout->addWidget(button_1, 3, 0);
-	main_layout->addWidget(button_2, 3, 1);
-	main_layout->addWidget(button_3, 3, 2);
-
-	main_layout->setSpacing(0);
-	main_layout->setContentsMargins(0, 0, 0, 0);
-
-	main_layout->setRowStretch(0, 1);
-	main_layout->setRowStretch(1, 2);
-	main_layout->setRowStretch(2, 2);
-	main_layout->setRowStretch(3, 2);
+    QFont font = m_line_edit->font();
+    font.setPixelSize(std::max(10, m_line_edit->height() / 2));
+    m_line_edit->setFont(font);
 }

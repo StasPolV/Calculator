@@ -9,6 +9,9 @@ class CalculatorWidget : public QWidget
 public:
 	CalculatorWidget(QWidget* parent = nullptr);
 
+protected:
+	void resizeEvent(QResizeEvent* event) override;
+
 private:
 	QLineEdit* m_line_edit;
 };
