@@ -1,5 +1,7 @@
 #include "Evaluator.h"
 
+#include <cmath>
+
 double Evaluator::GetResult() const
 {
 	return result;
@@ -42,6 +44,12 @@ double Evaluator::EvaluateHelper(Node* cur_node)
 		break;
 	case TokenType::UNARY_MINUS:
 		sum = -right;
+		break;
+	case TokenType::POWER:
+		sum = std::pow(left, right);
+		break;
+	case TokenType::SQRT:
+		sum = std::sqrt(right);
 		break;
 	}
 

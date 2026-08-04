@@ -14,6 +14,8 @@ enum TokenType
     RPAREN,
     END_OF_LINE,
     UNARY_MINUS,
+    POWER,
+    SQRT,
 };
 
 struct Token

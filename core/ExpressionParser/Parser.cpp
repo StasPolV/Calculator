@@ -90,7 +90,26 @@ std::unique_ptr<Node> Parser::ParseUnary(const std::vector<Token>& tokens)
 		return ParseUnary(tokens);
 	}
 
-	return ParsePrimary(tokens);
+	return ParsePower(tokens);
+}
+
+std::unique_ptr<Node> Parser::ParsePower(const std::vector<Token>& tokens)
+{
+	std::unique_ptr<Node> left = ParsePrimary(tokens);
+
+	if (!IsAtEnd(tokens) && Peek(tokens).type == TokenType::POWER)
+	{
+		++m_index;
+
+		auto node = std::make_unique<Node>();
+		node->type = TokenType::POWER;
+		node->left = std::move(left);
+		node->right = ParseUnary(tokens);
+
+		return node;
+	}
+
+	return left;
 }
 
 std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
@@ -109,6 +128,31 @@ std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 		node->value = std::stod(cur_token.value);
 
 		++m_index;
+
+		return node;
+	}
+
+	if (cur_token.type == TokenType::SQRT)
+	{
+		++m_index;
+
+		if (IsAtEnd(tokens) || Peek(tokens).type != TokenType::LPAREN)
+		{
+			// TODO: add error handling
+		}
+		++m_index;
+
+		std::unique_ptr<Node> inner = ParseAdditive(tokens);
+
+		if (IsAtEnd(tokens) || Peek(tokens).type != TokenType::RPAREN)
+		{
+			// TODO: add error handling
+		}
+		++m_index;
+
+		auto node = std::make_unique<Node>();
+		node->type = TokenType::SQRT;
+		node->right = std::move(inner);
 
 		return node;
 	}
