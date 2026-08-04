@@ -51,14 +51,14 @@ std::unique_ptr<Node> Parser::ParseAdditive(const std::vector<Token>& tokens)
 
 std::unique_ptr<Node> Parser::ParseMultiplication(const std::vector<Token>& tokens)
 {
-	std::unique_ptr<Node> left = ParsePrimary(tokens);
+	std::unique_ptr<Node> left = ParseUnary(tokens);
 
 	while (!IsAtEnd(tokens) && (Peek(tokens).type == TokenType::MULTIPLICATION || Peek(tokens).type == TokenType::DIVISION))
 	{
 		TokenType op = Peek(tokens).type;
 		++m_index;
 
-		std::unique_ptr<Node> right = ParsePrimary(tokens);
+		std::unique_ptr<Node> right = ParseUnary(tokens);
 
 		auto node = std::make_unique<Node>();
 		node->type = op;
@@ -69,6 +69,28 @@ std::unique_ptr<Node> Parser::ParseMultiplication(const std::vector<Token>& toke
 	}
 
 	return left;
+}
+
+std::unique_ptr<Node> Parser::ParseUnary(const std::vector<Token>& tokens)
+{
+	if (!IsAtEnd(tokens) && Peek(tokens).type == TokenType::MINUS)
+	{
+		++m_index;
+
+		auto node = std::make_unique<Node>();
+		node->type = TokenType::UNARY_MINUS;
+		node->right = ParseUnary(tokens);
+
+		return node;
+	}
+
+	if (!IsAtEnd(tokens) && Peek(tokens).type == TokenType::PLUS)
+	{
+		++m_index;
+		return ParseUnary(tokens);
+	}
+
+	return ParsePrimary(tokens);
 }
 
 std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)

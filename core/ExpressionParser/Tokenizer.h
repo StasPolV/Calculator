@@ -13,15 +13,16 @@ enum TokenType
     LPAREN,
     RPAREN,
     END_OF_LINE,
+    UNARY_MINUS,
 };
 
-struct Token 
+struct Token
 {
     TokenType type;
     std::string value;
 };
 
-class Tokenizer 
+class Tokenizer
 {
 public:
     void Tokenize(const std::string& expression);

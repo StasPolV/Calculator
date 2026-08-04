@@ -1,6 +1,6 @@
 #include "Evaluator.h"
 
-double Evaluator::GetResult() const 
+double Evaluator::GetResult() const
 {
 	return result;
 }
@@ -12,7 +12,7 @@ void Evaluator::Evaluate(std::unique_ptr<Node> ast_root)
 
 double Evaluator::EvaluateHelper(Node* cur_node)
 {
-	if (cur_node == nullptr) 
+	if (cur_node == nullptr)
 	{
 		return 0;
 	}
@@ -26,19 +26,22 @@ double Evaluator::EvaluateHelper(Node* cur_node)
 
 	double sum = 0;
 
-	switch (cur_node->type) 
+	switch (cur_node->type)
 	{
 	case TokenType::MULTIPLICATION:
-		sum =  left * right;
+		sum = left * right;
 		break;
 	case TokenType::DIVISION:
-		sum =  left / right;
+		sum = left / right;
 		break;
 	case TokenType::MINUS:
-		sum =  left - right;
+		sum = left - right;
 		break;
 	case TokenType::PLUS:
-		sum =  left + right;
+		sum = left + right;
+		break;
+	case TokenType::UNARY_MINUS:
+		sum = -right;
 		break;
 	}
 
