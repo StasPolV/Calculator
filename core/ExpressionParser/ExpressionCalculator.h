@@ -9,7 +9,7 @@
 class ExpressionCalculator 
 {
 public:
-    double evaluate(const std::string& expression) 
+    double Evaluate(const std::string& expression) 
     {
         Tokenizer tokenizer;
         tokenizer.Tokenize(expression);

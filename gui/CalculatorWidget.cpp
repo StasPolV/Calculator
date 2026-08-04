@@ -1,4 +1,5 @@
 #include "CalculatorWidget.h"
+
 #include <QGridLayout>
 #include <QPushButton>
 
@@ -32,7 +33,30 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 
     for (const auto& info : buttons) 
     {
-        main_layout->addWidget(createButton(info.text, this), info.row, info.col);
+        auto* button = createButton(info.text, this);
+        bool is_number;
+
+        int value = info.text.toInt(&is_number);
+        if (is_number) 
+        {
+            connect(button, &QPushButton::clicked, this, [this, info]() { ClickDigit(info.text); });
+        }
+
+        if (info.text == "=") 
+        {
+            connect(button, &QPushButton::clicked, this, [this]() { emit EvaluateClicked(m_line_edit->text().toStdString()); });
+        }
+        else if (info.text == ".") 
+        {
+            connect(button, &QPushButton::clicked, this, [this]() { m_line_edit->insert("."); });
+        }
+        else if (!is_number)
+        {
+            connect(button, &QPushButton::clicked, this, [this, info]() { ClickOp(info.text); });
+        }
+
+
+        main_layout->addWidget(button, info.row, info.col);
     }
 
     main_layout->setSpacing(0);
@@ -42,8 +66,6 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     {
         main_layout->setRowStretch(row, 2);
     }
-
-
 }
 
 void CalculatorWidget::resizeEvent(QResizeEvent* event) 
@@ -53,4 +75,14 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     QFont font = m_line_edit->font();
     font.setPixelSize(std::max(10, m_line_edit->height() / 2));
     m_line_edit->setFont(font);
+}
+
+void CalculatorWidget::ClickDigit(QString digit) 
+{
+    m_line_edit->insert(digit);
+}
+
+void CalculatorWidget::ClickOp(QString op) 
+{
+    m_line_edit->insert(op);
 }

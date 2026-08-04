@@ -2,10 +2,19 @@
 
 #include <QWidget>
 #include <QLineEdit>
+#include <QString>
 
 class CalculatorWidget : public QWidget
 {
 	Q_OBJECT
+
+signals:
+	void EvaluateClicked(const std::string& expression);
+
+public slots:
+	void ClickDigit(QString digit);
+	void ClickOp(QString op);
+
 public:
 	CalculatorWidget(QWidget* parent = nullptr);
 
