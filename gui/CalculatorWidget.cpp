@@ -28,7 +28,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
             emit EvaluateClicked(m_line_edit->text().toStdString());
         });
 
-    auto* validator = new QRegularExpressionValidator(QRegularExpression("[0-9+\\-*/(). ]*"), this);
+    auto* validator = new QRegularExpressionValidator(QRegularExpression(R"(^[0-9+\-*/(). ^sqrt]*$)"), this);
     m_line_edit->setValidator(validator);
 
     auto* main_layout = new QGridLayout(this);
