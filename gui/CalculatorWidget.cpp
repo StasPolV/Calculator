@@ -2,6 +2,7 @@
 
 #include <QGridLayout>
 #include <QPushButton>
+#include <QRegularExpressionValidator>
 
 namespace
 {
@@ -22,6 +23,13 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
     m_line_edit = new QLineEdit(this);
     m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    connect(m_line_edit, &QLineEdit::returnPressed, this, [this]()
+        {
+            emit EvaluateClicked(m_line_edit->text().toStdString());
+        });
+
+    auto* validator = new QRegularExpressionValidator(QRegularExpression("[0-9+\\-*/(). ]*"), this);
+    m_line_edit->setValidator(validator);
 
     auto* main_layout = new QGridLayout(this);
     main_layout->addWidget(m_line_edit, 0, 0, 1, 4);
@@ -59,7 +67,6 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
         {
             connect(button, &QPushButton::clicked, this, [this, info]() { ClickOp(info.text); });
         }
-
 
         main_layout->addWidget(button, info.row, info.col);
     }
