@@ -76,6 +76,34 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     QPushButton* button_sqrt = createButton("²√x", this);
     QPushButton* button_clear = createButton("C", this);
 
+    auto wrap_text = [this](const char* wrap)
+        {
+            QString text = m_line_edit->text();
+            QString wrapped = QString(wrap).arg(text);
+            m_line_edit->setText(wrapped);
+            emit EvaluateClicked(wrapped.toStdString());
+        };
+
+    connect(button_one_over_x, &QPushButton::clicked, this, [wrap_text]() 
+        {
+            wrap_text("1/(%1)");
+        });
+
+    connect(button_power, &QPushButton::clicked, this, [wrap_text]()
+        {
+            wrap_text("(%1)^2");
+        });
+
+    connect(button_sqrt, &QPushButton::clicked, this, [wrap_text]()
+        {
+            wrap_text("sqrt(%1)");
+        });
+
+    connect(button_clear, &QPushButton::clicked, this, [this]()
+        {
+            m_line_edit->setText("");
+        });
+
     main_layout->addWidget(button_one_over_x, 1, 0);
     main_layout->addWidget(button_power, 1, 1);
     main_layout->addWidget(button_sqrt, 1, 2);
