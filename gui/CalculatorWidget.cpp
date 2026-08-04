@@ -13,6 +13,11 @@ namespace
     }
 }
 
+void CalculatorWidget::ShowResult(double result) 
+{
+    m_line_edit->setText(QString::number(result));
+}
+
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
     m_line_edit = new QLineEdit(this);

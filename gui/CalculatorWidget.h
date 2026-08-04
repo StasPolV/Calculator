@@ -14,6 +14,7 @@ signals:
 public slots:
 	void ClickDigit(QString digit);
 	void ClickOp(QString op);
+	void ShowResult(double result);
 
 public:
 	CalculatorWidget(QWidget* parent = nullptr);

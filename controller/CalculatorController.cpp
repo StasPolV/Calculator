@@ -1,6 +1,10 @@
 #include "CalculatorController.h"
 
 CalculatorController::CalculatorController(CalculatorModel& model, CalculatorWidget& widget, QObject* parent)
-	: m_model(model), m_widget(widget), QObject(parent) 
+	: QObject(parent), m_model(model), m_widget(widget)
 {
+	connect(&m_widget, &CalculatorWidget::EvaluateClicked, &m_model, &CalculatorModel::SetExpression);
+	connect(&m_widget, &CalculatorWidget::EvaluateClicked, &m_model, &CalculatorModel::Evaluate);
+
+	connect(&m_model, &CalculatorModel::Evaluated, &m_widget, &CalculatorWidget::ShowResult);
 }
