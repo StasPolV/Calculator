@@ -1,4 +1,4 @@
-#include "CalculatorWidget.h"
+﻿#include "CalculatorWidget.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -37,11 +37,11 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     struct ButtonInfo { QString text; int row; int col; };
 
     static const std::vector<ButtonInfo> buttons = {
-        {"7", 1, 0}, {"8", 1, 1}, {"9", 1, 2},
-        {"4", 2, 0}, {"5", 2, 1}, {"6", 2, 2},
-        {"1", 3, 0}, {"2", 3, 1}, {"3", 3, 2},
-        {"0", 4, 0}, {".", 4, 1}, {"=", 4, 2},
-        {"/", 1, 3}, {"*", 2, 3}, {"-", 3, 3}, {"+", 4, 3},
+        {"7", 2, 0}, {"8", 2, 1}, {"9", 2, 2},
+        {"4", 3, 0}, {"5", 3, 1}, {"6", 3, 2},
+        {"1", 4, 0}, {"2", 4, 1}, {"3", 4, 2},
+        {"0", 5, 0}, {".", 5, 1}, {"=", 5, 2},
+        {"/", 2, 3}, {"*", 3, 3}, {"-", 4, 3}, {"+", 5, 3},
     };
 
     for (const auto& info : buttons) 
@@ -71,10 +71,20 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
         main_layout->addWidget(button, info.row, info.col);
     }
 
+    QPushButton* button_one_over_x = createButton("1/x", this);
+    QPushButton* button_power = createButton("x²", this);
+    QPushButton* button_sqrt = createButton("²√x", this);
+    QPushButton* button_clear = createButton("C", this);
+
+    main_layout->addWidget(button_one_over_x, 1, 0);
+    main_layout->addWidget(button_power, 1, 1);
+    main_layout->addWidget(button_sqrt, 1, 2);
+    main_layout->addWidget(button_clear, 1, 3);
+
     main_layout->setSpacing(0);
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->setRowStretch(0, 1);
-    for (int row = 1; row <= 4; ++row) 
+    for (int row = 1; row <= 5; ++row) 
     {
         main_layout->setRowStretch(row, 2);
     }
