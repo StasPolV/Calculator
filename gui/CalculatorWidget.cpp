@@ -3,6 +3,8 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QRegularExpressionValidator>
+#include <QFile>
+#include <QStyle>
 
 namespace
 {
@@ -12,6 +14,23 @@ namespace
         button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         return button;
     }
+
+    QString loadStyleSheet(const QString& resource_path) 
+    {
+        QFile file(resource_path);
+        if (!file.open(QFile::ReadOnly | QFile::Text)) 
+        {
+            return QString();
+        }
+
+        return QLatin1String(file.readAll());
+    }
+}
+
+void CalculatorWidget::UpdateStyle() 
+{
+    m_label->style()->unpolish(m_label);
+    m_label->style()->polish(m_label);
 }
 
 void CalculatorWidget::ShowResult(double result) 
@@ -21,7 +40,10 @@ void CalculatorWidget::ShowResult(double result)
 
 void CalculatorWidget::ShowError(QString error) 
 {
-    m_line_edit->setText(error);
+    m_label->setText(error);
+    m_label->setProperty("hasError", true);
+
+    UpdateStyle();
 }
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
@@ -39,14 +61,20 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     auto* main_layout = new QGridLayout(this);
     main_layout->addWidget(m_line_edit, 0, 0, 1, 4);
 
+    m_label = new QLabel(this);
+    QString style = loadStyleSheet(":/styles/label.qss");
+    m_label->setStyleSheet(style);
+
+    main_layout->addWidget(m_label, 1, 0, 1, 4);
+
     struct ButtonInfo { QString text; int row; int col; };
 
     static const std::vector<ButtonInfo> buttons = {
-        {"7", 2, 0}, {"8", 2, 1}, {"9", 2, 2},
-        {"4", 3, 0}, {"5", 3, 1}, {"6", 3, 2},
-        {"1", 4, 0}, {"2", 4, 1}, {"3", 4, 2},
-        {"0", 5, 0}, {".", 5, 1}, {"=", 5, 2},
-        {"/", 2, 3}, {"*", 3, 3}, {"-", 4, 3}, {"+", 5, 3},
+        {"7", 3, 0}, {"8", 3, 1}, {"9", 3, 2},
+        {"4", 4, 0}, {"5", 4, 1}, {"6", 4, 2},
+        {"1", 5, 0}, {"2", 5, 1}, {"3", 5, 2},
+        {"0", 6, 0}, {".", 6, 1}, {"=", 6, 2},
+        {"/", 3, 3}, {"*", 4, 3}, {"-", 5, 3}, {"+", 6, 3},
     };
 
     for (const auto& info : buttons) 
@@ -109,15 +137,16 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
             m_line_edit->setText("");
         });
 
-    main_layout->addWidget(button_one_over_x, 1, 0);
-    main_layout->addWidget(button_power, 1, 1);
-    main_layout->addWidget(button_sqrt, 1, 2);
-    main_layout->addWidget(button_clear, 1, 3);
+    main_layout->addWidget(button_one_over_x, 2, 0);
+    main_layout->addWidget(button_power, 2, 1);
+    main_layout->addWidget(button_sqrt, 2, 2);
+    main_layout->addWidget(button_clear, 2, 3);
 
     main_layout->setSpacing(0);
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->setRowStretch(0, 1);
-    for (int row = 1; row <= 5; ++row) 
+    main_layout->setRowStretch(1, 1);
+    for (int row = 2; row <= 6; ++row) 
     {
         main_layout->setRowStretch(row, 2);
     }
@@ -130,6 +159,7 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     QFont font = m_line_edit->font();
     font.setPixelSize(std::max(10, m_line_edit->height() / 2));
     m_line_edit->setFont(font);
+    m_label->setFont(font);
 }
 
 void CalculatorWidget::ClickDigit(QString digit) 

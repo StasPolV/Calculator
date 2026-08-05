@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QLineEdit>
+#include <QLabel>
 #include <QString>
 
 class CalculatorWidget : public QWidget
@@ -24,5 +25,8 @@ protected:
 	void resizeEvent(QResizeEvent* event) override;
 
 private:
+	void UpdateStyle();
+
 	QLineEdit* m_line_edit;
+	QLabel* m_label;
 };
