@@ -158,7 +158,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     main_layout->setSpacing(0);
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->setRowStretch(0, 1);
-    main_layout->setRowStretch(1, 1);
+    main_layout->setRowStretch(1, 0.5);
     for (int row = 2; row <= 6; ++row)
     {
         main_layout->setRowStretch(row, 2);
@@ -172,7 +172,6 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     QFont font = m_line_edit->font();
     font.setPixelSize(std::max(10, m_line_edit->height() / 2));
     m_line_edit->setFont(font);
-    m_label->setFont(font);
 }
 
 void CalculatorWidget::ClickDigit(QString digit)
