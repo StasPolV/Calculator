@@ -15,6 +15,7 @@ public slots:
 	void ClickDigit(QString digit);
 	void ClickOp(QString op);
 	void ShowResult(double result);
+	void ShowError(QString error);
 
 public:
 	CalculatorWidget(QWidget* parent = nullptr);

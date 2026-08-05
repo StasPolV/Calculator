@@ -7,4 +7,6 @@ CalculatorController::CalculatorController(CalculatorModel& model, CalculatorWid
 	connect(&m_widget, &CalculatorWidget::EvaluateClicked, &m_model, &CalculatorModel::Evaluate);
 
 	connect(&m_model, &CalculatorModel::Evaluated, &m_widget, &CalculatorWidget::ShowResult);
+	connect(&m_model, &CalculatorModel::EvaluatedError, 
+		&m_widget, [this](const std::string& message) { m_widget.ShowError(QString::fromStdString(message)); });
 }

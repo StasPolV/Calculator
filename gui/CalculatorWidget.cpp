@@ -19,6 +19,11 @@ void CalculatorWidget::ShowResult(double result)
     m_line_edit->setText(QString::number(result));
 }
 
+void CalculatorWidget::ShowError(QString error) 
+{
+    m_line_edit->setText(error);
+}
+
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
     m_line_edit = new QLineEdit(this);
