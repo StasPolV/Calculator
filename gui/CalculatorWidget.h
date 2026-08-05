@@ -26,6 +26,7 @@ protected:
 
 private:
 	void UpdateStyle();
+	void ResetErrorStyle();
 
 	QLineEdit* m_line_edit;
 	QLabel* m_label;

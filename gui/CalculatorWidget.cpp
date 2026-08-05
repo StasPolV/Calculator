@@ -15,10 +15,10 @@ namespace
         return button;
     }
 
-    QString loadStyleSheet(const QString& resource_path) 
+    QString loadStyleSheet(const QString& resource_path)
     {
         QFile file(resource_path);
-        if (!file.open(QFile::ReadOnly | QFile::Text)) 
+        if (!file.open(QFile::ReadOnly | QFile::Text))
         {
             return QString();
         }
@@ -27,22 +27,34 @@ namespace
     }
 }
 
-void CalculatorWidget::UpdateStyle() 
+void CalculatorWidget::UpdateStyle()
 {
     m_label->style()->unpolish(m_label);
     m_label->style()->polish(m_label);
 }
 
-void CalculatorWidget::ShowResult(double result) 
+void CalculatorWidget::ShowResult(double result)
 {
     m_line_edit->setText(QString::number(result));
 }
 
-void CalculatorWidget::ShowError(QString error) 
+void CalculatorWidget::ShowError(QString error)
 {
     m_label->setText(error);
     m_label->setProperty("hasError", true);
 
+    UpdateStyle();
+}
+
+void CalculatorWidget::ResetErrorStyle()
+{
+    if (!m_label->property("hasError").toBool())
+    {
+        return;
+    }
+
+    m_label->setText("");
+    m_label->setProperty("hasError", false);
     UpdateStyle();
 }
 
@@ -54,6 +66,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
         {
             emit EvaluateClicked(m_line_edit->text().toStdString());
         });
+    connect(m_line_edit, &QLineEdit::textChanged, this, &CalculatorWidget::ResetErrorStyle);
 
     auto* validator = new QRegularExpressionValidator(QRegularExpression(R"(^[0-9+\-*/(). ^sqrt]*$)"), this);
     m_line_edit->setValidator(validator);
@@ -77,22 +90,22 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
         {"/", 3, 3}, {"*", 4, 3}, {"-", 5, 3}, {"+", 6, 3},
     };
 
-    for (const auto& info : buttons) 
+    for (const auto& info : buttons)
     {
         auto* button = createButton(info.text, this);
         bool is_number;
 
         int value = info.text.toInt(&is_number);
-        if (is_number) 
+        if (is_number)
         {
             connect(button, &QPushButton::clicked, this, [this, info]() { ClickDigit(info.text); });
         }
 
-        if (info.text == "=") 
+        if (info.text == "=")
         {
             connect(button, &QPushButton::clicked, this, [this]() { emit EvaluateClicked(m_line_edit->text().toStdString()); });
         }
-        else if (info.text == ".") 
+        else if (info.text == ".")
         {
             connect(button, &QPushButton::clicked, this, [this]() { m_line_edit->insert("."); });
         }
@@ -117,7 +130,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
             emit EvaluateClicked(wrapped.toStdString());
         };
 
-    connect(button_one_over_x, &QPushButton::clicked, this, [wrap_text]() 
+    connect(button_one_over_x, &QPushButton::clicked, this, [wrap_text]()
         {
             wrap_text("1/(%1)");
         });
@@ -146,13 +159,13 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->setRowStretch(0, 1);
     main_layout->setRowStretch(1, 1);
-    for (int row = 2; row <= 6; ++row) 
+    for (int row = 2; row <= 6; ++row)
     {
         main_layout->setRowStretch(row, 2);
     }
 }
 
-void CalculatorWidget::resizeEvent(QResizeEvent* event) 
+void CalculatorWidget::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
 
@@ -162,12 +175,12 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     m_label->setFont(font);
 }
 
-void CalculatorWidget::ClickDigit(QString digit) 
+void CalculatorWidget::ClickDigit(QString digit)
 {
     m_line_edit->insert(digit);
 }
 
-void CalculatorWidget::ClickOp(QString op) 
+void CalculatorWidget::ClickOp(QString op)
 {
     m_line_edit->insert(op);
 }
