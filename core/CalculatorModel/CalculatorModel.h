@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
 
 #include <string>
 
@@ -10,6 +11,7 @@ class CalculatorModel : public QObject
 
 signals:
 	void Evaluated(double result);
+	void EvaluatedError(const std::string& message);
 
 public slots:
 	void Evaluate();

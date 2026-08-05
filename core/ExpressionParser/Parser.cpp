@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "ExpressionError.h"
 
 std::unique_ptr<Node> Parser::GetAstRoot()
 {
@@ -21,9 +22,9 @@ void Parser::Parse(const std::vector<Token>& tokens)
 
 	m_ast_root = ParseAdditive(tokens);
 
-	if (!IsAtEnd(tokens))
+	if (!IsAtEnd(tokens) && Peek(tokens).type != TokenType::END_OF_LINE)
 	{
-		// TODO: add error handling
+		throw ExpressionError("Unexpected token '" + Peek(tokens).value + "' after end of expression");
 	}
 }
 
@@ -114,9 +115,9 @@ std::unique_ptr<Node> Parser::ParsePower(const std::vector<Token>& tokens)
 
 std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 {
-	if (IsAtEnd(tokens))
+	if (IsAtEnd(tokens) || Peek(tokens).type == TokenType::END_OF_LINE)
 	{
-		// TODO: add error handling
+		throw ExpressionError("Unexpected end of expression, expected a number, '(' or 'sqrt'");
 	}
 
 	const Token& cur_token = Peek(tokens);
@@ -125,7 +126,15 @@ std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 	{
 		auto node = std::make_unique<Node>();
 		node->type = TokenType::NUMBER;
-		node->value = std::stod(cur_token.value);
+
+		try
+		{
+			node->value = std::stod(cur_token.value);
+		}
+		catch (const std::exception&)
+		{
+			throw ExpressionError("Invalid number '" + cur_token.value + "'");
+		}
 
 		++m_index;
 
@@ -138,7 +147,7 @@ std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 
 		if (IsAtEnd(tokens) || Peek(tokens).type != TokenType::LPAREN)
 		{
-			// TODO: add error handling
+			throw ExpressionError("Expected '(' after 'sqrt'");
 		}
 		++m_index;
 
@@ -146,7 +155,7 @@ std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 
 		if (IsAtEnd(tokens) || Peek(tokens).type != TokenType::RPAREN)
 		{
-			// TODO: add error handling
+			throw ExpressionError("Expected ')' to close 'sqrt('");
 		}
 		++m_index;
 
@@ -165,13 +174,12 @@ std::unique_ptr<Node> Parser::ParsePrimary(const std::vector<Token>& tokens)
 
 		if (IsAtEnd(tokens) || Peek(tokens).type != TokenType::RPAREN)
 		{
-			// TODO: add error handling
+			throw ExpressionError("Expected ')' to close '('");
 		}
 		++m_index;
 
 		return inner;
 	}
 
-	// TODO: add error handling
-	return nullptr;
+	throw ExpressionError("Unexpected token '" + cur_token.value + "'");
 }

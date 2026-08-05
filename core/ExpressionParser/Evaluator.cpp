@@ -1,5 +1,7 @@
 #include "Evaluator.h"
 
+#include "ExpressionError.h"
+
 #include <cmath>
 
 double Evaluator::GetResult() const
@@ -34,6 +36,10 @@ double Evaluator::EvaluateHelper(Node* cur_node)
 		sum = left * right;
 		break;
 	case TokenType::DIVISION:
+		if (right == 0) 
+		{
+			throw ExpressionError("Zero Division Error");
+		}
 		sum = left / right;
 		break;
 	case TokenType::MINUS:

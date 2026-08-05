@@ -1,6 +1,7 @@
 #include "CalculatorModel.h"
 
 #include "ExpressionCalculator.h"
+#include "ExpressionError.h"
 
 void CalculatorModel::SetExpression(const std::string& expression)
 {
@@ -9,8 +10,14 @@ void CalculatorModel::SetExpression(const std::string& expression)
 
 void CalculatorModel::Evaluate()
 {
-	ExpressionCalculator expr_calc;
-	double result = expr_calc.Evaluate(m_expression);
-	emit Evaluated(result);
-	// TODO: add errors handling
+	try
+	{
+		ExpressionCalculator expr_calc;
+		double result = expr_calc.Evaluate(m_expression);
+		emit Evaluated(result);
+	}
+	catch (const ExpressionError& e)
+	{
+		emit EvaluatedError(e.what());
+	}
 }

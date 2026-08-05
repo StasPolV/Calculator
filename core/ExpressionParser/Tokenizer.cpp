@@ -1,5 +1,7 @@
 #include "Tokenizer.h"
 
+#include "ExpressionError.h"
+
 void Tokenizer::Tokenize(const std::string& expression)
 {
     m_tokens.clear();
@@ -45,7 +47,10 @@ void Tokenizer::Tokenize(const std::string& expression)
                 {
                     m_tokens.emplace_back(TokenType::SQRT, identifier);
                 }
-                // TODO: add error handling for unknown identifiers
+                else
+                {
+                    throw ExpressionError("Unknown identifier '" + identifier + "'");
+                }
                 is_alpha = false;
             }
 
@@ -90,7 +95,10 @@ void Tokenizer::Tokenize(const std::string& expression)
         {
             m_tokens.emplace_back(TokenType::SQRT, identifier);
         }
-        // TODO: add error handling for unknown identifiers
+        else
+        {
+            throw ExpressionError("Unknown identifier '" + identifier + "'");
+        }
     }
 
     m_tokens.emplace_back(TokenType::END_OF_LINE, "Empty");
