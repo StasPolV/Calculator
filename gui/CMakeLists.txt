@@ -1,4 +1,4 @@
-add_library(CalculatorWidget CalculatorWidget.h CalculatorWidget.cpp ScalableIconButton.h ScalableIconButton.cpp)
+add_library(CalculatorWidget CalculatorWidget.h CalculatorWidget.cpp ScalableIconButton.h ScalableIconButton.cpp SettingsWidget.h SettingsWidget.cpp)
 
 target_include_directories(CalculatorWidget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

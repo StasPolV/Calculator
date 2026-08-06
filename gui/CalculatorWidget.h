@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SettingsWidget.h"
+
 #include <QWidget>
 #include <QLineEdit>
 #include <QLabel>
@@ -33,4 +35,5 @@ private:
 	QLineEdit* m_line_edit;
 	QLabel* m_label;
 	ScalableIconButton* m_button_settings;
+	SettingsWidget* m_settings_widget;
 };
