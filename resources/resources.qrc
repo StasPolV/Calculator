@@ -2,4 +2,8 @@
 	<qresource prefix="/styles">
 		<file alias="label.qss">styles/label.qss</file>
 	</qresource>
+	<qresource prefix="/images">
+		<file alias="settings_black.png">images/settings_black.png</file>
+		<file alias="settings_white.png">images/settings_white.png</file>
+	</qresource>
 </RCC>

@@ -2,20 +2,23 @@
 
 #include <QGridLayout>
 #include <QPushButton>
+#include <QToolButton>
 #include <QRegularExpressionValidator>
 #include <QFile>
 #include <QStyle>
+#include <QIcon>
+#include <QSize>
 
 namespace
 {
-    QPushButton* createButton(const QString& text, QWidget* parent)
+    QPushButton* createButton(QString text, QWidget* parent)
     {
         auto* button = new QPushButton(text, parent);
         button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         return button;
     }
 
-    QString loadStyleSheet(const QString& resource_path)
+    QString loadStyleSheet(QString resource_path)
     {
         QFile file(resource_path);
         if (!file.open(QFile::ReadOnly | QFile::Text))
@@ -24,6 +27,12 @@ namespace
         }
 
         return QLatin1String(file.readAll());
+    }
+
+    void setIcon(QAbstractButton* button, QString icon_path) 
+    {
+        QIcon icon(icon_path);
+        button->setIcon(icon);
     }
 }
 
@@ -60,6 +69,10 @@ void CalculatorWidget::ResetErrorStyle()
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
+    QToolButton* button_settings = new QToolButton(this);
+    setIcon(button_settings, ":/images/settings_white.png");
+    button_settings->setAutoRaise(true);
+
     m_line_edit = new QLineEdit(this);
     m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(m_line_edit, &QLineEdit::returnPressed, this, [this]()
@@ -72,22 +85,24 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     m_line_edit->setValidator(validator);
 
     auto* main_layout = new QGridLayout(this);
-    main_layout->addWidget(m_line_edit, 0, 0, 1, 4);
+    main_layout->addWidget(button_settings, 0, 0, 1, 1, Qt::AlignLeft);
+    main_layout->addWidget(m_line_edit, 1, 0, 1, 4);
+    main_layout->setRowMinimumHeight(2, 10);
 
     m_label = new QLabel(this);
     QString style = loadStyleSheet(":/styles/label.qss");
     m_label->setStyleSheet(style);
 
-    main_layout->addWidget(m_label, 1, 0, 1, 4);
+    main_layout->addWidget(m_label, 3, 0, 1, 4);
 
     struct ButtonInfo { QString text; int row; int col; };
 
     static const std::vector<ButtonInfo> buttons = {
-        {"7", 3, 0}, {"8", 3, 1}, {"9", 3, 2},
-        {"4", 4, 0}, {"5", 4, 1}, {"6", 4, 2},
-        {"1", 5, 0}, {"2", 5, 1}, {"3", 5, 2},
-        {"0", 6, 0}, {".", 6, 1}, {"=", 6, 2},
-        {"/", 3, 3}, {"*", 4, 3}, {"-", 5, 3}, {"+", 6, 3},
+        {"7", 5, 0}, {"8", 5, 1}, {"9", 5, 2},
+        {"4", 6, 0}, {"5", 6, 1}, {"6", 6, 2},
+        {"1", 7, 0}, {"2", 7, 1}, {"3", 7, 2},
+        {"0", 8, 0}, {".", 8, 1}, {"=", 8, 2},
+        {"/", 5, 3}, {"*", 6, 3}, {"-", 7, 3}, {"+", 8, 3},
     };
 
     for (const auto& info : buttons)
@@ -150,16 +165,18 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
             m_line_edit->setText("");
         });
 
-    main_layout->addWidget(button_one_over_x, 2, 0);
-    main_layout->addWidget(button_power, 2, 1);
-    main_layout->addWidget(button_sqrt, 2, 2);
-    main_layout->addWidget(button_clear, 2, 3);
+    main_layout->addWidget(button_one_over_x, 4, 0);
+    main_layout->addWidget(button_power, 4, 1);
+    main_layout->addWidget(button_sqrt, 4, 2);
+    main_layout->addWidget(button_clear, 4, 3);
 
     main_layout->setSpacing(0);
     main_layout->setContentsMargins(0, 0, 0, 0);
+
     main_layout->setRowStretch(0, 1);
-    main_layout->setRowStretch(1, 0.5);
-    for (int row = 2; row <= 6; ++row)
+    main_layout->setRowStretch(1, 1);
+    main_layout->setRowStretch(2, 0.5);
+    for (int row = 4; row <= 8; ++row)
     {
         main_layout->setRowStretch(row, 2);
     }
