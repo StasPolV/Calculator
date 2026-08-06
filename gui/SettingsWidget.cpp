@@ -1,8 +1,12 @@
 #include "SettingsWidget.h"
 
+namespace 
+{
+	constexpr double kPercentParentWidth = 0.25;
+}
+
 SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) 
 {
-	setFixedWidth(110);
 	setAutoFillBackground(true);
 
 	hide();
@@ -41,7 +45,7 @@ void SettingsWidget::Close()
 
 void SettingsWidget::SyncHeight() 
 {
-	setGeometry(m_is_open ? 0 : -width(), 0, width(), parentWidget()->height());
+	setGeometry(m_is_open ? 0 : -(parentWidget()->width() * kPercentParentWidth), 0, parentWidget()->width() * kPercentParentWidth, parentWidget()->height());
 }
 
 QPropertyAnimation* SettingsWidget::Animate(QRect from, QRect to) 

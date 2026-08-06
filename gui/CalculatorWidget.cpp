@@ -73,6 +73,7 @@ CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
     connect(m_button_settings, &ScalableIconButton::clicked, this, [this]() 
         {
             m_settings_widget->IsOpen() ? m_settings_widget->Close() : m_settings_widget->Open();
+            m_button_settings->raise();
         });
 
     m_line_edit = new QLineEdit(this);
@@ -198,9 +199,9 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     {
         m_button_settings->setFixedSize(side, side);
     }
-    if (m_settings_widget->height() != height()) 
+    if (m_settings_widget->height() != height() || event->size().width() != event->oldSize().width())
     {
-        m_settings_widget->resize(m_settings_widget->width(), height());
+        m_settings_widget->SyncHeight();
     }
 
     QFont font = m_line_edit->font();
