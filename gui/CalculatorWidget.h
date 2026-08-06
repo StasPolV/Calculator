@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QString>
 
+class ScalableIconButton;
+
 class CalculatorWidget : public QWidget
 {
 	Q_OBJECT
@@ -30,4 +32,5 @@ private:
 
 	QLineEdit* m_line_edit;
 	QLabel* m_label;
+	ScalableIconButton* m_button_settings;
 };
