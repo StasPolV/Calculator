@@ -5,10 +5,11 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QSlider>
+#include <QSpinBox>
 
 namespace 
 {
-	constexpr int kWidth = 280;
+	constexpr int kWidth = 320;
 }
 
 SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) 
@@ -32,12 +33,19 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	precision_slider->setRange(0, 10);
 	precision_slider->setValue(2);
 	QLabel* precision_label = new QLabel("Calculation Precision: ", this);
+	QSpinBox* precision_spin_box = new QSpinBox(this);
+	precision_spin_box->setRange(0, 10);
+	precision_spin_box->setValue(2);
 	precision_layout->addWidget(precision_label);
+	precision_layout->addWidget(precision_spin_box);
 	precision_layout->addWidget(precision_slider);
 
 	QVBoxLayout* main_layout = new QVBoxLayout(this);
 	main_layout->addLayout(theme_layout);
 	main_layout->addLayout(precision_layout);
+
+	connect(precision_spin_box, &QSpinBox::valueChanged, precision_slider, &QSlider::setValue);
+	connect(precision_slider, &QSlider::valueChanged, precision_spin_box, &QSpinBox::setValue);
 }
 
 void SettingsWidget::Open() 
