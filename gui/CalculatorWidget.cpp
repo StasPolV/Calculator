@@ -9,14 +9,15 @@
 
 #include <algorithm>
 
-CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
+CalculatorWidget::CalculatorWidget(SettingsWidget* settings_widget, QWidget* parent) : QWidget(parent)
 {
     setMinimumSize(320, 500);
 
     m_top_bar = new TopBarWidget(this);
     m_display = new DisplayWidget(this);
     m_keypad = new KeypadWidget(this);
-    m_settings_widget = new SettingsWidget(this);
+    m_settings_widget = settings_widget;
+    m_settings_widget->setParent(this);
 
     auto* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
