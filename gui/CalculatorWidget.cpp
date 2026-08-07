@@ -63,6 +63,11 @@ void CalculatorWidget::ShowResult(double result)
     m_display->ShowResult(result);
 }
 
+void CalculatorWidget::SetPrecision(int precision) 
+{
+    m_display->SetPrecision(precision);
+}
+
 void CalculatorWidget::ShowError(QString error)
 {
     m_display->ShowError(error);

@@ -18,6 +18,7 @@ signals:
 public slots:
 	void ShowResult(double result);
 	void ShowError(QString error);
+	void SetPrecision(int precision);
 
 public:
 	explicit DisplayWidget(QWidget* parent = nullptr);
@@ -36,4 +37,5 @@ private:
 
 	QLineEdit* m_line_edit;
 	QLabel* m_label;
+	int m_precision;
 };

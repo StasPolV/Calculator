@@ -52,6 +52,11 @@ void DisplayWidget::InsertText(const QString& text)
     m_line_edit->insert(text);
 }
 
+void DisplayWidget::SetPrecision(int precision) 
+{
+    m_precision = precision;
+}
+
 void DisplayWidget::SetText(const QString& text)
 {
     m_line_edit->setText(text);
@@ -69,7 +74,7 @@ void DisplayWidget::Clear()
 
 void DisplayWidget::ShowResult(double result)
 {
-    m_line_edit->setText(QString::number(result));
+    m_line_edit->setText(QString::number(result, 'f', m_precision));
 }
 
 void DisplayWidget::ShowError(QString error)

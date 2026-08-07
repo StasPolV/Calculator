@@ -31,7 +31,7 @@ add_subdirectory(controller)
 qt_add_executable(Calculator core/main.cpp resources/resources.qrc)
 
 target_link_libraries(Calculator PRIVATE
-    CalculatorController
+    controllers
     Qt6::Core
     Qt6::Widgets
 )

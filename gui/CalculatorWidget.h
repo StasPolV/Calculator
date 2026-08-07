@@ -20,6 +20,7 @@ signals:
 public slots:
 	void ShowResult(double result);
 	void ShowError(QString error);
+	void SetPrecision(int precision);
 
 public:
 	explicit CalculatorWidget(SettingsWidget* settings_widget, QWidget* parent = nullptr);

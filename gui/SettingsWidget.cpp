@@ -7,6 +7,8 @@
 #include <QSlider>
 #include <QSpinBox>
 
+#include <algorithm>
+
 namespace 
 {
 	constexpr int kWidth = 320;
@@ -46,6 +48,10 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 
 	connect(precision_spin_box, &QSpinBox::valueChanged, precision_slider, &QSlider::setValue);
 	connect(precision_slider, &QSlider::valueChanged, precision_spin_box, &QSpinBox::setValue);
+
+	connect(precision_spin_box, &QSpinBox::valueChanged, this, &SettingsWidget::PrecisionChanged);
+
+	connect(theme_box, &QComboBox::currentTextChanged, this, &SettingsWidget::ThemeChanged);
 }
 
 void SettingsWidget::Open() 

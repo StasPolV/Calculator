@@ -4,9 +4,16 @@
 #include <QResizeEvent>
 #include <QPropertyAnimation>
 
+class QSpinBox;
+
 class SettingsWidget : public QWidget 
 {
 	Q_OBJECT
+
+signals:
+	void PrecisionChanged(int precision);
+	void ThemeChanged(QString theme);
+
 public:
 	explicit SettingsWidget(QWidget* parent = nullptr);
 
