@@ -5,6 +5,8 @@
 #include <QPropertyAnimation>
 
 class QSpinBox;
+class QSlider;
+class QSpinBox;
 
 class SettingsWidget : public QWidget 
 {
@@ -13,6 +15,9 @@ class SettingsWidget : public QWidget
 signals:
 	void PrecisionChanged(int precision);
 	void ThemeChanged(QString theme);
+
+public slots:
+	void SetPrecision(int precision);
 
 public:
 	explicit SettingsWidget(QWidget* parent = nullptr);
@@ -27,4 +32,6 @@ private:
 	QPropertyAnimation* Animate(QRect from, QRect to);
 
 	bool m_is_open = false;
+	QSlider* m_precision_slider;
+	QSpinBox* m_precision_spin_box;
 };

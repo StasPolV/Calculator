@@ -31,27 +31,36 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	theme_layout->addWidget(theme_box);
 
 	QHBoxLayout* precision_layout = new QHBoxLayout;
-	QSlider* precision_slider = new QSlider(Qt::Orientation::Horizontal, this);
-	precision_slider->setRange(0, 10);
-	precision_slider->setValue(2);
+	m_precision_slider = new QSlider(Qt::Orientation::Horizontal, this);
+	m_precision_slider->setRange(0, 10);
+	// precision_slider->setValue(2);
 	QLabel* precision_label = new QLabel("Calculation Precision: ", this);
-	QSpinBox* precision_spin_box = new QSpinBox(this);
-	precision_spin_box->setRange(0, 10);
-	precision_spin_box->setValue(2);
+	m_precision_spin_box = new QSpinBox(this);
+	m_precision_spin_box->setRange(0, 10);
+	// precision_spin_box->setValue(2);
 	precision_layout->addWidget(precision_label);
-	precision_layout->addWidget(precision_spin_box);
-	precision_layout->addWidget(precision_slider);
+	precision_layout->addWidget(m_precision_spin_box);
+	precision_layout->addWidget(m_precision_slider);
 
 	QVBoxLayout* main_layout = new QVBoxLayout(this);
 	main_layout->addLayout(theme_layout);
 	main_layout->addLayout(precision_layout);
 
-	connect(precision_spin_box, &QSpinBox::valueChanged, precision_slider, &QSlider::setValue);
-	connect(precision_slider, &QSlider::valueChanged, precision_spin_box, &QSpinBox::setValue);
+	connect(m_precision_spin_box, &QSpinBox::valueChanged, m_precision_slider, &QSlider::setValue);
+	connect(m_precision_slider, &QSlider::valueChanged, m_precision_spin_box, &QSpinBox::setValue);
 
-	connect(precision_spin_box, &QSpinBox::valueChanged, this, &SettingsWidget::PrecisionChanged);
+	connect(m_precision_spin_box, &QSpinBox::valueChanged, this, &SettingsWidget::PrecisionChanged);
 
 	connect(theme_box, &QComboBox::currentTextChanged, this, &SettingsWidget::ThemeChanged);
+}
+
+void SettingsWidget::SetPrecision(int precision) 
+{
+	const QSignalBlocker blocker_spin(m_precision_spin_box);
+	const QSignalBlocker blocker_slider(m_precision_slider);
+
+	m_precision_spin_box->setValue(precision);
+	m_precision_slider->setValue(precision);
 }
 
 void SettingsWidget::Open() 

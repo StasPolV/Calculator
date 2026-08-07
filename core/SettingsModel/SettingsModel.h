@@ -3,6 +3,8 @@
 #include <string>
 
 #include <QObject>
+#include <QSettings>
+
 class QString;
 
 enum Theme 
@@ -28,6 +30,7 @@ public:
 	int GetPrecision() const { return m_precision;  }
 
 private:
-	int m_precision = 2;
+	QSettings m_settings;
+	int m_precision;
 	Theme m_theme = Theme::DARK;
 };

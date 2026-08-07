@@ -37,5 +37,5 @@ private:
 
 	QLineEdit* m_line_edit;
 	QLabel* m_label;
-	int m_precision;
+	int m_precision = 2;
 };
