@@ -64,6 +64,8 @@ void CalculatorWidget::ResetErrorStyle()
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
+    setMinimumSize(320, 500);
+
     m_button_settings = new ScalableIconButton(this);
     m_button_settings->SetIconSource(":/images/settings_white.png");
     m_button_settings->SetIconRatio(0.75);

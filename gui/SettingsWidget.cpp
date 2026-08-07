@@ -1,5 +1,11 @@
 #include "SettingsWidget.h"
 
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QComboBox>
+#include <QLabel>
+#include <QSlider>
+
 namespace 
 {
 	constexpr double kPercentParentWidth = 0.25;
@@ -10,6 +16,26 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	setAutoFillBackground(true);
 
 	hide();
+
+	QHBoxLayout* theme_layout = new QHBoxLayout;
+	QComboBox* theme_box = new QComboBox(this);
+	theme_box->addItem("Dark Theme");
+	theme_box->addItem("White Theme");
+	QLabel* theme_label = new QLabel("Application Theme: ", this);
+	theme_layout->addWidget(theme_label);
+	theme_layout->addWidget(theme_box);
+
+	QHBoxLayout* precision_layout = new QHBoxLayout;
+	QSlider* precision_slider = new QSlider(Qt::Orientation::Horizontal, this);
+	precision_slider->setRange(0, 10);
+	precision_slider->setValue(2);
+	QLabel* precision_label = new QLabel("Calculation Precision: ", this);
+	precision_layout->addWidget(precision_label);
+	precision_layout->addWidget(precision_slider);
+
+	QVBoxLayout* main_layout = new QVBoxLayout(this);
+	main_layout->addLayout(theme_layout);
+	main_layout->addLayout(precision_layout);
 }
 
 void SettingsWidget::Open() 
