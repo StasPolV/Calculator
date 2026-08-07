@@ -8,11 +8,13 @@
 
 namespace 
 {
-	constexpr double kPercentParentWidth = 0.25;
+	constexpr int kWidth = 280;
 }
 
 SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) 
 {
+	setFixedWidth(kWidth);
+
 	setAutoFillBackground(true);
 
 	hide();
@@ -47,8 +49,8 @@ void SettingsWidget::Open()
 
 	m_is_open = true;
 	raise();
-	const QRect closed(-width(), 0, width(), parentWidget()->height());
-	const QRect opened(0, 0, width(), parentWidget()->height());
+	const QRect closed(-kWidth, 0, kWidth, parentWidget()->height());
+	const QRect opened(0, 0, kWidth, parentWidget()->height());
 
 	setGeometry(closed);
 	show();
@@ -71,7 +73,7 @@ void SettingsWidget::Close()
 
 void SettingsWidget::SyncHeight() 
 {
-	setGeometry(m_is_open ? 0 : -(parentWidget()->width() * kPercentParentWidth), 0, parentWidget()->width() * kPercentParentWidth, parentWidget()->height());
+	setGeometry(m_is_open ? 0 : -kWidth, 0, kWidth, parentWidget()->height());
 }
 
 QPropertyAnimation* SettingsWidget::Animate(QRect from, QRect to) 
