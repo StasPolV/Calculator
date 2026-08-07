@@ -10,10 +10,10 @@ int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	SettingsWidget settings_view;
+	SettingsWidget* settings_view = new SettingsWidget;
 
 	CalculatorModel model;
-	CalculatorWidget view(&settings_view);
+	CalculatorWidget view(settings_view);
 	CalculatorController(model, view);
 
 	view.show();
