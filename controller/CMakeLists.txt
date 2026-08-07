@@ -7,6 +7,6 @@ target_include_directories(CalculatorController PUBLIC ${CMAKE_CURRENT_SOURCE_DI
 target_link_libraries(CalculatorController
     PUBLIC
         CalculatorModel
-        CalculatorWidget
+        gui
         Qt6::Core
 )

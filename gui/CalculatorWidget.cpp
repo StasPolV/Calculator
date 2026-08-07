@@ -1,193 +1,70 @@
-﻿#include "CalculatorWidget.h"
-#include "ScalableIconButton.h"
+#include "CalculatorWidget.h"
+#include "TopBarWidget.h"
+#include "DisplayWidget.h"
+#include "KeypadWidget.h"
+#include "SettingsWidget.h"
 
-#include <QGridLayout>
-#include <QPushButton>
-#include <QRegularExpressionValidator>
-#include <QFile>
-#include <QStyle>
-#include <QSize>
+#include <QVBoxLayout>
+#include <QResizeEvent>
 
 #include <algorithm>
-
-namespace
-{
-    QPushButton* createButton(QString text, QWidget* parent)
-    {
-        auto* button = new QPushButton(text, parent);
-        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        return button;
-    }
-
-    QString loadStyleSheet(QString resource_path)
-    {
-        QFile file(resource_path);
-        if (!file.open(QFile::ReadOnly | QFile::Text))
-        {
-            return QString();
-        }
-
-        return QLatin1String(file.readAll());
-    }
-}
-
-void CalculatorWidget::UpdateStyle()
-{
-    m_label->style()->unpolish(m_label);
-    m_label->style()->polish(m_label);
-}
-
-void CalculatorWidget::ShowResult(double result)
-{
-    m_line_edit->setText(QString::number(result));
-}
-
-void CalculatorWidget::ShowError(QString error)
-{
-    m_label->setText(error);
-    m_label->setProperty("hasError", true);
-
-    UpdateStyle();
-}
-
-void CalculatorWidget::ResetErrorStyle()
-{
-    if (!m_label->property("hasError").toBool())
-    {
-        return;
-    }
-
-    m_label->setText("");
-    m_label->setProperty("hasError", false);
-    UpdateStyle();
-}
 
 CalculatorWidget::CalculatorWidget(QWidget* parent) : QWidget(parent)
 {
     setMinimumSize(320, 500);
 
-    m_button_settings = new ScalableIconButton(this);
-    m_button_settings->SetIconSource(":/images/settings_white.png");
-    m_button_settings->SetIconRatio(0.75);
-    m_button_settings->setAutoRaise(true);
-
+    m_top_bar = new TopBarWidget(this);
+    m_display = new DisplayWidget(this);
+    m_keypad = new KeypadWidget(this);
     m_settings_widget = new SettingsWidget(this);
-    connect(m_button_settings, &ScalableIconButton::clicked, this, [this]() 
+
+    auto* layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+
+    layout->addWidget(m_top_bar, 1);
+    layout->addSpacing(10);
+    layout->addWidget(m_display, 3);
+    layout->addWidget(m_keypad, 10);
+
+    WireSignals();
+}
+
+void CalculatorWidget::WireSignals()
+{
+    connect(m_top_bar, &TopBarWidget::SettingsToggleRequested, this, [this]()
         {
             m_settings_widget->IsOpen() ? m_settings_widget->Close() : m_settings_widget->Open();
-            m_button_settings->raise();
+            m_top_bar->raise();
         });
 
-    m_line_edit = new QLineEdit(this);
-    m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    connect(m_line_edit, &QLineEdit::returnPressed, this, [this]()
+    connect(m_display, &DisplayWidget::EvaluateRequested, this, &CalculatorWidget::EvaluateClicked);
+
+    connect(m_keypad, &KeypadWidget::DigitPressed, m_display, &DisplayWidget::InsertText);
+    connect(m_keypad, &KeypadWidget::OperatorPressed, m_display, &DisplayWidget::InsertText);
+    connect(m_keypad, &KeypadWidget::ClearRequested, m_display, &DisplayWidget::Clear);
+
+    connect(m_keypad, &KeypadWidget::EqualsPressed, this, [this]()
         {
-            emit EvaluateClicked(m_line_edit->text().toStdString());
+            emit EvaluateClicked(m_display->Text().toStdString());
         });
-    connect(m_line_edit, &QLineEdit::textChanged, this, &CalculatorWidget::ResetErrorStyle);
 
-    auto* validator = new QRegularExpressionValidator(QRegularExpression(R"(^[0-9+\-*/(). ^sqrt]*$)"), this);
-    m_line_edit->setValidator(validator);
-
-    auto* main_layout = new QGridLayout(this);
-
-    main_layout->addWidget(m_button_settings, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
-    main_layout->addWidget(m_line_edit, 2, 0, 1, 4);
-    main_layout->setRowMinimumHeight(1, 10);
-    main_layout->setRowMinimumHeight(3, 10);
-
-    m_label = new QLabel(this);
-    QString style = loadStyleSheet(":/styles/label.qss");
-    m_label->setStyleSheet(style);
-
-    main_layout->addWidget(m_label, 4, 0, 1, 4);
-
-    struct ButtonInfo { QString text; int row; int col; };
-
-    static const std::vector<ButtonInfo> buttons = {
-        {"7", 6, 0}, {"8", 6, 1}, {"9", 6, 2},
-        {"4", 7, 0}, {"5", 7, 1}, {"6", 7, 2},
-        {"1", 8, 0}, {"2", 8, 1}, {"3", 8, 2},
-        {"0", 9, 0}, {".", 9, 1}, {"=", 9, 2},
-        {"/", 6, 3}, {"*", 7, 3}, {"-", 8, 3}, {"+", 9, 3},
-    };
-
-    for (const auto& info : buttons)
-    {
-        auto* button = createButton(info.text, this);
-        bool is_number;
-
-        info.text.toInt(&is_number);
-        if (is_number)
+    connect(m_keypad, &KeypadWidget::FunctionRequested, this, [this](QString format_template)
         {
-            connect(button, &QPushButton::clicked, this, [this, info]() { ClickDigit(info.text); });
-        }
-
-        if (info.text == "=")
-        {
-            connect(button, &QPushButton::clicked, this, [this]() { emit EvaluateClicked(m_line_edit->text().toStdString()); });
-        }
-        else if (info.text == ".")
-        {
-            connect(button, &QPushButton::clicked, this, [this]() { m_line_edit->insert("."); });
-        }
-        else if (!is_number)
-        {
-            connect(button, &QPushButton::clicked, this, [this, info]() { ClickOp(info.text); });
-        }
-
-        main_layout->addWidget(button, info.row, info.col);
-    }
-
-    QPushButton* button_one_over_x = createButton("1/x", this);
-    QPushButton* button_power = createButton("x²", this);
-    QPushButton* button_sqrt = createButton("²√x", this);
-    QPushButton* button_clear = createButton("C", this);
-
-    auto wrap_text = [this](const char* wrap)
-        {
-            QString text = m_line_edit->text();
-            QString wrapped = QString(wrap).arg(text);
-            m_line_edit->setText(wrapped);
+            const QString wrapped = format_template.arg(m_display->Text());
+            m_display->SetText(wrapped);
             emit EvaluateClicked(wrapped.toStdString());
-        };
-
-    connect(button_one_over_x, &QPushButton::clicked, this, [wrap_text]()
-        {
-            wrap_text("1/(%1)");
         });
+}
 
-    connect(button_power, &QPushButton::clicked, this, [wrap_text]()
-        {
-            wrap_text("(%1)^2");
-        });
+void CalculatorWidget::ShowResult(double result)
+{
+    m_display->ShowResult(result);
+}
 
-    connect(button_sqrt, &QPushButton::clicked, this, [wrap_text]()
-        {
-            wrap_text("sqrt(%1)");
-        });
-
-    connect(button_clear, &QPushButton::clicked, this, [this]()
-        {
-            m_line_edit->setText("");
-        });
-
-    main_layout->addWidget(button_one_over_x, 5, 0);
-    main_layout->addWidget(button_power, 5, 1);
-    main_layout->addWidget(button_sqrt, 5, 2);
-    main_layout->addWidget(button_clear, 5, 3);
-
-    main_layout->setSpacing(0);
-    main_layout->setContentsMargins(0, 0, 0, 0);
-
-    main_layout->setRowStretch(0, 1);
-    main_layout->setRowStretch(2, 1);
-    main_layout->setRowStretch(3, 0.5);
-    main_layout->setRowStretch(4, 1);
-    for (int row = 5; row <= 9; ++row)
-    {
-        main_layout->setRowStretch(row, 2);
-    }
+void CalculatorWidget::ShowError(QString error)
+{
+    m_display->ShowError(error);
 }
 
 void CalculatorWidget::resizeEvent(QResizeEvent* event)
@@ -197,26 +74,10 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     const int base = std::min(width(), height());
     const int side = std::clamp(static_cast<int>(base * 0.10), 24, 72);
 
-    if (m_button_settings->size() != QSize(side, side))
-    {
-        m_button_settings->setFixedSize(side, side);
-    }
+    m_top_bar->SetButtonSide(side);
+
     if (m_settings_widget->height() != height() || event->size().width() != event->oldSize().width())
     {
         m_settings_widget->SyncHeight();
     }
-
-    QFont font = m_line_edit->font();
-    font.setPixelSize(std::max(10, m_line_edit->height() / 2));
-    m_line_edit->setFont(font);
-}
-
-void CalculatorWidget::ClickDigit(QString digit)
-{
-    m_line_edit->insert(digit);
-}
-
-void CalculatorWidget::ClickOp(QString op)
-{
-    m_line_edit->insert(op);
 }

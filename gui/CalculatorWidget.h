@@ -1,14 +1,20 @@
 #pragma once
 
-#include "SettingsWidget.h"
-
 #include <QWidget>
-#include <QLineEdit>
-#include <QLabel>
 #include <QString>
 
-class ScalableIconButton;
+#include <string>
 
+class TopBarWidget;
+class DisplayWidget;
+class KeypadWidget;
+class SettingsWidget;
+
+// Composition root of the calculator GUI. Owns TopBarWidget, DisplayWidget,
+// KeypadWidget and SettingsWidget, wires their signals to each other, and
+// exposes the same minimal public interface CalculatorController expects:
+// EvaluateClicked signal, ShowResult/ShowError slots. Nothing outside this
+// class needs to know that the calculator is made of four sub-widgets.
 class CalculatorWidget : public QWidget
 {
 	Q_OBJECT
@@ -17,23 +23,20 @@ signals:
 	void EvaluateClicked(const std::string& expression);
 
 public slots:
-	void ClickDigit(QString digit);
-	void ClickOp(QString op);
 	void ShowResult(double result);
 	void ShowError(QString error);
 
 public:
-	CalculatorWidget(QWidget* parent = nullptr);
+	explicit CalculatorWidget(QWidget* parent = nullptr);
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;
 
 private:
-	void UpdateStyle();
-	void ResetErrorStyle();
+	void WireSignals();
 
-	QLineEdit* m_line_edit;
-	QLabel* m_label;
-	ScalableIconButton* m_button_settings;
+	TopBarWidget* m_top_bar;
+	DisplayWidget* m_display;
+	KeypadWidget* m_keypad;
 	SettingsWidget* m_settings_widget;
 };
