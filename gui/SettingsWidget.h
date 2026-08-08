@@ -7,6 +7,7 @@
 class QSpinBox;
 class QSlider;
 class QSpinBox;
+class QComboBox;
 
 class SettingsWidget : public QWidget 
 {
@@ -18,6 +19,7 @@ signals:
 
 public slots:
 	void SetPrecision(int precision);
+	void SetTheme(QString theme);
 
 public:
 	explicit SettingsWidget(QWidget* parent = nullptr);
@@ -34,4 +36,5 @@ private:
 	bool m_is_open = false;
 	QSlider* m_precision_slider;
 	QSpinBox* m_precision_spin_box;
+	QComboBox* m_combo_box;
 };

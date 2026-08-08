@@ -24,12 +24,12 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	hide();
 
 	QHBoxLayout* theme_layout = new QHBoxLayout;
-	QComboBox* theme_box = new QComboBox(this);
-	theme_box->addItem("Dark");
-	theme_box->addItem("White");
+	m_combo_box = new QComboBox(this);
+	m_combo_box->addItem("Dark");
+	m_combo_box->addItem("White");
 	QLabel* theme_label = new QLabel("Application Theme: ", this);
 	theme_layout->addWidget(theme_label);
-	theme_layout->addWidget(theme_box);
+	theme_layout->addWidget(m_combo_box);
 
 	QHBoxLayout* precision_layout = new QHBoxLayout;
 	m_precision_slider = new QSlider(Qt::Orientation::Horizontal, this);
@@ -50,7 +50,7 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 
 	connect(m_precision_spin_box, &QSpinBox::valueChanged, this, &SettingsWidget::PrecisionChanged);
 
-	connect(theme_box, &QComboBox::currentTextChanged, this, &SettingsWidget::ThemeChanged);
+	connect(m_combo_box, &QComboBox::currentTextChanged, this, &SettingsWidget::ThemeChanged);
 }
 
 void SettingsWidget::SetPrecision(int precision) 
@@ -60,6 +60,13 @@ void SettingsWidget::SetPrecision(int precision)
 
 	m_precision_spin_box->setValue(precision);
 	m_precision_slider->setValue(precision);
+}
+
+void SettingsWidget::SetTheme(QString theme) 
+{
+	const QSignalBlocker blocker_theme(m_combo_box);
+
+	m_combo_box->setCurrentText(theme);
 }
 
 void SettingsWidget::Open() 

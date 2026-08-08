@@ -28,8 +28,7 @@ int main(int argc, char* argv[])
 	QObject::connect(&settings_model, &SettingsModel::PrecisionChanged, &view, &CalculatorWidget::SetPrecision);
 	QObject::connect(&settings_model, &SettingsModel::ThemeChanged, &view, &CalculatorWidget::ChangeSettingsButtonTheme);
 	view.SetPrecision(settings_model.GetPrecision());
-
-	/*QObject::connect(&settings_model, &SettingsModel::ThemeChanged, app, [&app](QString theme) { app.setSty });*/
+	view.ChangeSettingsButtonTheme(settings_model.GetTheme());
 
 	view.show();
 

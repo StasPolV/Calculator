@@ -29,6 +29,20 @@ public:
 	explicit SettingsModel(QObject* parent = nullptr);
 
 	int GetPrecision() const { return m_precision;  }
+	QString GetTheme() const 
+	{
+		switch (m_theme)
+		{
+		case Theme::DARK:
+			return "Dark";
+			break;
+		case Theme::WHITE:
+			return "White";
+			break;
+		}
+
+		return "None"; // TODO: add handling
+	}
 
 private:
 	QSettings m_settings;
