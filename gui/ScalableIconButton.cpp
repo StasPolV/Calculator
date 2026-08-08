@@ -7,7 +7,7 @@
 
 ScalableIconButton::ScalableIconButton(QWidget* parent) : QToolButton(parent)
 {
-	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setToolButtonStyle(Qt::ToolButtonIconOnly);
 }
 

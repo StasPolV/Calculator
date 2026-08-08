@@ -3,6 +3,7 @@
 #include "DisplayWidget.h"
 #include "KeypadWidget.h"
 #include "SettingsWidget.h"
+#include "ScalableIconButton.h"
 
 #include <QVBoxLayout>
 #include <QResizeEvent>
@@ -35,11 +36,13 @@ void CalculatorWidget::ChangeSettingsButtonTheme(QString theme)
 {
     if (theme == "Dark") 
     {
-        m_top_bar->SetIcon(":/images/settings_white.png");
+        m_top_bar->GetButtonSettings()->SetIconSource(":/images/settings_white.png");
+        m_top_bar->GetButtonHistory()->SetIconSource(":/images/clock_with_arrow_white.png");
     }
     else if (theme == "White") 
     {
-        m_top_bar->SetIcon(":/images/settings_black.png");
+        m_top_bar->GetButtonSettings()->SetIconSource(":/images/settings_black.png");
+        m_top_bar->GetButtonHistory()->SetIconSource(":/images/clock_with_arrow_black.png");
     }
 }
 
@@ -92,7 +95,7 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     const int base = std::min(width(), height());
     const int side = std::clamp(static_cast<int>(base * 0.10), 24, 72);
 
-    m_top_bar->SetButtonSide(side);
+    m_top_bar->SetButtonsSide(side);
 
     if (m_settings_widget->height() != height() || event->size().width() != event->oldSize().width())
     {

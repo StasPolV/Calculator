@@ -7,5 +7,7 @@
 	<qresource prefix="/images">
 		<file alias="settings_black.png">images/settings_black.png</file>
 		<file alias="settings_white.png">images/settings_white.png</file>
+		<file alias="clock_with_arrow_black.png">images/clock_with_arrow_black.png</file>
+		<file alias="clock_with_arrow_white.png">images/clock_with_arrow_white.png</file>
 	</qresource>
 </RCC>
