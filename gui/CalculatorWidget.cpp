@@ -31,6 +31,18 @@ CalculatorWidget::CalculatorWidget(SettingsWidget* settings_widget, QWidget* par
     WireSignals();
 }
 
+void CalculatorWidget::ChangeSettingsButtonTheme(QString theme) 
+{
+    if (theme == "Dark") 
+    {
+        m_top_bar->SetIcon(":/images/settings_white.png");
+    }
+    else if (theme == "White") 
+    {
+        m_top_bar->SetIcon(":/images/settings_black.png");
+    }
+}
+
 void CalculatorWidget::WireSignals()
 {
     connect(m_top_bar, &TopBarWidget::SettingsToggleRequested, this, [this]()

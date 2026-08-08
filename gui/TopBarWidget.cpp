@@ -7,7 +7,7 @@
 TopBarWidget::TopBarWidget(QWidget* parent) : QWidget(parent)
 {
     m_button_settings = new ScalableIconButton(this);
-    m_button_settings->SetIconSource(":/images/settings_white.png");
+    SetIcon(":/images/settings_white.png");
     m_button_settings->SetIconRatio(0.75);
     m_button_settings->setAutoRaise(true);
 
@@ -17,6 +17,11 @@ TopBarWidget::TopBarWidget(QWidget* parent) : QWidget(parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_button_settings, 0, Qt::AlignLeft | Qt::AlignVCenter);
     layout->addStretch(1);
+}
+
+void TopBarWidget::SetIcon(QString icon) 
+{
+    m_button_settings->SetIconSource(icon);
 }
 
 void TopBarWidget::SetButtonSide(int side)

@@ -40,6 +40,7 @@ KeypadWidget::KeypadWidget(QWidget* parent) : QWidget(parent)
         if (info.text == "=")
         {
             connect(button, &QPushButton::clicked, this, &KeypadWidget::EqualsPressed);
+            button->setObjectName("EqualsButton");
         }
         else if (info.text == ".")
         {

@@ -1,0 +1,101 @@
+QWidget {
+    background-color: #f5f5f5;
+    color: #202020;
+    font-family: "Segoe UI", sans-serif;
+}
+
+QLineEdit {
+    background-color: #ffffff;
+    color: #202020;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 4px 8px;
+    selection-background-color: #2196f3;
+    selection-color: #ffffff;
+}
+
+QLabel {
+    background-color: transparent;
+    color: #4a4a4a;
+}
+
+QPushButton {
+    background-color: #ffffff;
+    color: #202020;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+
+QPushButton:hover {
+    background-color: #eeeeee;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton#EqualsButton {
+    background-color: #2196f3;
+    color: #ffffff;
+    border: 1px solid #2196f3;
+    font-weight: bold;
+}
+
+QPushButton#EqualsButton:hover {
+    background-color: #42a5f5;
+}
+
+QPushButton#EqualsButton:pressed {
+    background-color: #1976d2;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: none;
+}
+
+QToolButton:hover {
+    background-color: #eaeaea;
+    border-radius: 4px;
+}
+
+QComboBox {
+    background-color: #ffffff;
+    color: #202020;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 3px 6px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    color: #202020;
+    selection-background-color: #2196f3;
+    selection-color: #ffffff;
+}
+
+QSpinBox {
+    background-color: #ffffff;
+    color: #202020;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+QSlider::groove:horizontal {
+    height: 4px;
+    background: #cccccc;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #2196f3;
+    width: 14px;
+    margin: -6px 0;
+    border-radius: 7px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #2196f3;
+    border-radius: 2px;
+}

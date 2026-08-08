@@ -14,6 +14,7 @@ ScalableIconButton::ScalableIconButton(QWidget* parent) : QToolButton(parent)
 void ScalableIconButton::SetIconSource(QString path)
 {
 	m_source = QPixmap(path);
+	m_icon_dirty = true;
 	UpdateIcon();
 }
 
@@ -49,7 +50,7 @@ void ScalableIconButton::UpdateIcon()
 	const int side = std::max(1, static_cast<int>(std::min(width(), height()) * m_icon_ratio));
 	const QSize icon_size(side, side);
 
-	if (iconSize() == icon_size && !icon().isNull())
+	if (!m_icon_dirty && iconSize() == icon_size && !icon().isNull())
 	{
 		return;
 	}
@@ -62,4 +63,5 @@ void ScalableIconButton::UpdateIcon()
 
 	setIconSize(icon_size);
 	setIcon(QIcon(scaled));
+	m_icon_dirty = false;
 }

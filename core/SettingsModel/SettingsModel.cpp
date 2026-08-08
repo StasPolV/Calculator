@@ -16,7 +16,7 @@ void SettingsModel::SetPrecision(int precision)
 
 void SettingsModel::SetTheme(QString theme) 
 {
-	m_theme = (theme == "Dark Theme") ? Theme::DARK : Theme::WHITE;
+	m_theme = (theme == "Dark") ? Theme::DARK : Theme::WHITE;
 
-	// TODO: emit ThemeChanged
+	emit ThemeChanged(theme);
 }

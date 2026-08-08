@@ -21,6 +21,7 @@ public slots:
 	void ShowResult(double result);
 	void ShowError(QString error);
 	void SetPrecision(int precision);
+	void ChangeSettingsButtonTheme(QString theme);
 
 public:
 	explicit CalculatorWidget(SettingsWidget* settings_widget, QWidget* parent = nullptr);

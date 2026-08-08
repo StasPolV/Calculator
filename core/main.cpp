@@ -8,6 +8,7 @@
 
 #include <QApplication>
 #include <QObject>
+#include <QString>
 
 int main(int argc, char* argv[]) 
 {
@@ -25,7 +26,10 @@ int main(int argc, char* argv[])
 	CalculatorController calculator_controller(model, view);
 
 	QObject::connect(&settings_model, &SettingsModel::PrecisionChanged, &view, &CalculatorWidget::SetPrecision);
+	QObject::connect(&settings_model, &SettingsModel::ThemeChanged, &view, &CalculatorWidget::ChangeSettingsButtonTheme);
 	view.SetPrecision(settings_model.GetPrecision());
+
+	/*QObject::connect(&settings_model, &SettingsModel::ThemeChanged, app, [&app](QString theme) { app.setSty });*/
 
 	view.show();
 

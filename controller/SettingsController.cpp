@@ -1,4 +1,7 @@
 #include "SettingsController.h"
+#include "utils.h"
+
+#include <QApplication>
 
 SettingsController::SettingsController(SettingsModel& model, SettingsWidget& view, QObject* parent) : QObject(parent), m_model(model), m_view(view)
 {
@@ -6,4 +9,16 @@ SettingsController::SettingsController(SettingsModel& model, SettingsWidget& vie
 	connect(&m_view, &SettingsWidget::ThemeChanged, &m_model, &SettingsModel::SetTheme);
 
 	m_view.SetPrecision(m_model.GetPrecision());
+
+	connect(&m_model, &SettingsModel::ThemeChanged, this, [this](QString theme) 
+		{
+			if (theme == "Dark") 
+			{
+				qApp->setStyleSheet(utils::loadStyleSheet(":/styles/theme_dark.qss"));
+			}
+			else if (theme == "White") 
+			{
+				qApp->setStyleSheet(utils::loadStyleSheet(":/styles/theme_light.qss"));
+			}
+		});
 }

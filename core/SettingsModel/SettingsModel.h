@@ -19,6 +19,7 @@ class SettingsModel : public QObject
 
 signals:
 	void PrecisionChanged(int precision);
+	void ThemeChanged(QString theme);
 
 public slots:
 	void SetPrecision(int precision);

@@ -15,6 +15,7 @@ public:
 	explicit TopBarWidget(QWidget* parent = nullptr);
 
 	void SetButtonSide(int side);
+	void SetIcon(QString icon);
 
 private:
 	ScalableIconButton* m_button_settings;

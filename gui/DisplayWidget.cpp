@@ -1,4 +1,5 @@
 #include "DisplayWidget.h"
+#include "utils.h"
 
 #include <QLineEdit>
 #include <QLabel>
@@ -9,20 +10,6 @@
 #include <QResizeEvent>
 
 #include <algorithm>
-
-namespace
-{
-    QString loadStyleSheet(QString resource_path)
-    {
-        QFile file(resource_path);
-        if (!file.open(QFile::ReadOnly | QFile::Text))
-        {
-            return QString();
-        }
-
-        return QLatin1String(file.readAll());
-    }
-}
 
 DisplayWidget::DisplayWidget(QWidget* parent) : QWidget(parent)
 {
@@ -38,7 +25,7 @@ DisplayWidget::DisplayWidget(QWidget* parent) : QWidget(parent)
     m_line_edit->setValidator(validator);
 
     m_label = new QLabel(this);
-    m_label->setStyleSheet(loadStyleSheet(":/styles/label.qss"));
+    m_label->setStyleSheet(utils::loadStyleSheet(":/styles/label.qss"));
 
     auto* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

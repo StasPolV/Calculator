@@ -19,13 +19,14 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	setFixedWidth(kWidth);
 
 	setAutoFillBackground(true);
+	setAttribute(Qt::WA_StyledBackground, true);
 
 	hide();
 
 	QHBoxLayout* theme_layout = new QHBoxLayout;
 	QComboBox* theme_box = new QComboBox(this);
-	theme_box->addItem("Dark Theme");
-	theme_box->addItem("White Theme");
+	theme_box->addItem("Dark");
+	theme_box->addItem("White");
 	QLabel* theme_label = new QLabel("Application Theme: ", this);
 	theme_layout->addWidget(theme_label);
 	theme_layout->addWidget(theme_box);
@@ -33,11 +34,9 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	QHBoxLayout* precision_layout = new QHBoxLayout;
 	m_precision_slider = new QSlider(Qt::Orientation::Horizontal, this);
 	m_precision_slider->setRange(0, 10);
-	// precision_slider->setValue(2);
 	QLabel* precision_label = new QLabel("Calculation Precision: ", this);
 	m_precision_spin_box = new QSpinBox(this);
 	m_precision_spin_box->setRange(0, 10);
-	// precision_spin_box->setValue(2);
 	precision_layout->addWidget(precision_label);
 	precision_layout->addWidget(m_precision_spin_box);
 	precision_layout->addWidget(m_precision_slider);

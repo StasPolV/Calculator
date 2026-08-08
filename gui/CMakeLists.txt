@@ -5,6 +5,7 @@ add_library(gui
     TopBarWidget.h TopBarWidget.cpp
     SettingsWidget.h SettingsWidget.cpp
     ScalableIconButton.h ScalableIconButton.cpp
+	utils.h utils.cpp
 )
 
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

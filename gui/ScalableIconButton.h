@@ -25,6 +25,7 @@ protected:
 private:
 	void UpdateIcon();
 
+	bool m_icon_dirty = false;
 	QPixmap m_source;
 	double m_icon_ratio = 0.75;
 };
