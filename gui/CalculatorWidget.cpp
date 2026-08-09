@@ -3,6 +3,7 @@
 #include "DisplayWidget.h"
 #include "KeypadWidget.h"
 #include "SettingsWidget.h"
+#include "HistoryWidget.h"
 #include "ScalableIconButton.h"
 
 #include <QVBoxLayout>
@@ -19,6 +20,7 @@ CalculatorWidget::CalculatorWidget(SettingsWidget* settings_widget, QWidget* par
     m_keypad = new KeypadWidget(this);
     m_settings_widget = settings_widget;
     m_settings_widget->setParent(this);
+    m_history_widget = new HistoryWidget(this);
 
     auto* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -52,6 +54,10 @@ void CalculatorWidget::WireSignals()
         {
             m_settings_widget->IsOpen() ? m_settings_widget->Close() : m_settings_widget->Open();
             m_top_bar->raise();
+        });
+    connect(m_top_bar, &TopBarWidget::HistoryToggleRequested, this, [this]()
+        {
+            m_history_widget->IsOpen() ? m_history_widget->Close() : m_history_widget->Open();
         });
 
     connect(m_display, &DisplayWidget::EvaluateRequested, this, &CalculatorWidget::EvaluateClicked);
@@ -100,5 +106,9 @@ void CalculatorWidget::resizeEvent(QResizeEvent* event)
     if (m_settings_widget->height() != height() || event->size().width() != event->oldSize().width())
     {
         m_settings_widget->SyncHeight();
+    }
+    if (m_history_widget->width() != width() || event->size().height() != event->oldSize().height())
+    {
+        m_history_widget->SyncWidth();
     }
 }

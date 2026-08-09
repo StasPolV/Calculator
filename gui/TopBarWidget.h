@@ -10,6 +10,7 @@ class TopBarWidget : public QWidget
 
 signals:
 	void SettingsToggleRequested();
+	void HistoryToggleRequested();
 
 public:
 	explicit TopBarWidget(QWidget* parent = nullptr);

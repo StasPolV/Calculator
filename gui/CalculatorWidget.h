@@ -9,6 +9,7 @@ class TopBarWidget;
 class DisplayWidget;
 class KeypadWidget;
 class SettingsWidget;
+class HistoryWidget;
 
 class CalculatorWidget : public QWidget
 {
@@ -36,4 +37,5 @@ private:
 	DisplayWidget* m_display;
 	KeypadWidget* m_keypad;
 	SettingsWidget* m_settings_widget;
+	HistoryWidget* m_history_widget;
 };

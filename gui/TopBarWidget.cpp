@@ -17,6 +17,7 @@ TopBarWidget::TopBarWidget(QWidget* parent) : QWidget(parent)
     m_button_history->setAutoRaise(true);
 
     connect(m_button_settings, &ScalableIconButton::clicked, this, &TopBarWidget::SettingsToggleRequested);
+    connect(m_button_history, &ScalableIconButton::clicked, this, &TopBarWidget::HistoryToggleRequested);
 
     auto* layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
