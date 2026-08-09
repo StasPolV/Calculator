@@ -1,10 +1,11 @@
 #include "HistoryWidget.h"
 
+#include "ScalableButton.h"
+
 #include <QRect>
 #include <QPropertyAnimation>
 #include <QScrollArea>
 #include <QVBoxLayout>
-#include <QPushButton>
 
 namespace 
 {
@@ -34,14 +35,15 @@ HistoryWidget::HistoryWidget(QWidget* parent) : QWidget(parent)
 
 void HistoryWidget::AddHistory(QString full_expression) 
 {
-	QPushButton* history_button = new QPushButton(full_expression, this);
+	ScalableButton* history_button = new ScalableButton(full_expression, this);
 	history_button->setFixedHeight(60);
 	history_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	history_button->SetFontRatio(0.5);
 
 	m_container_layout->addWidget(history_button);
 	m_container_layout->setAlignment(Qt::AlignTop);
 
-	connect(history_button, &QPushButton::clicked, this, [this, full_expression]()
+	connect(history_button, &ScalableButton::clicked, this, [this, full_expression]()
 		{
 			int index = full_expression.indexOf("= ");
 			QString result = full_expression.mid(index + 2);

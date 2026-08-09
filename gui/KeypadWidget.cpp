@@ -1,16 +1,18 @@
 #include "KeypadWidget.h"
 
+#include "ScalableButton.h"
+
 #include <QGridLayout>
-#include <QPushButton>
 
 #include <vector>
 
 namespace
 {
-    QPushButton* createButton(QString text, QWidget* parent)
+    ScalableButton* createButton(QString text, QWidget* parent)
     {
-        auto* button = new QPushButton(text, parent);
+        auto* button = new ScalableButton(text, parent);
         button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        button->SetFontRatio(0.25);
         return button;
     }
 }
@@ -58,10 +60,10 @@ KeypadWidget::KeypadWidget(QWidget* parent) : QWidget(parent)
         layout->addWidget(button, info.row, info.col);
     }
 
-    QPushButton* button_one_over_x = createButton("1/x", this);
-    QPushButton* button_power = createButton("x²", this);
-    QPushButton* button_sqrt = createButton("²√x", this);
-    QPushButton* button_clear = createButton("C", this);
+    ScalableButton* button_one_over_x = createButton("1/x", this);
+    ScalableButton* button_power = createButton("x²", this);
+    ScalableButton* button_sqrt = createButton("²√x", this);
+    ScalableButton* button_clear = createButton("C", this);
 
     connect(button_one_over_x, &QPushButton::clicked, this, [this]() { emit FunctionRequested("1/(%1)"); });
     connect(button_power, &QPushButton::clicked, this, [this]() { emit FunctionRequested("(%1)^2"); });
