@@ -3,27 +3,43 @@
 #include <QRect>
 #include <QPropertyAnimation>
 #include <QScrollArea>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 namespace 
 {
-	constexpr int kHeight = 350;
+	constexpr int kHeight = 400;
 }
 
 HistoryWidget::HistoryWidget(QWidget* parent) : QWidget(parent)
 {
-	setFixedHeight(350);
+	setFixedHeight(kHeight);
 	setAutoFillBackground(true);
 	setAttribute(Qt::WA_StyledBackground, true);
 	hide();
 
+	QVBoxLayout* main_layout = new QVBoxLayout(this);
+
 	QScrollArea* scroll_area = new QScrollArea;
-	QWidget* buttons_container = new QWidget(this);
-	scroll_area->setWidget(buttons_container);
+	m_buttons_container = new QWidget(this);
+	m_container_layout = new QVBoxLayout(m_buttons_container);
+
+	scroll_area->setWidget(m_buttons_container);
 	scroll_area->setWidgetResizable(true);
 	scroll_area->setAlignment(Qt::AlignRight | Qt::AlignBottom);
 	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+	main_layout->addWidget(scroll_area);
+}
 
+void HistoryWidget::AddHistory(QString full_expression) 
+{
+	QPushButton* history_button = new QPushButton(full_expression, this);
+	history_button->setFixedHeight(60);
+	history_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	m_container_layout->addWidget(history_button);
+	m_container_layout->setAlignment(Qt::AlignTop);
 }
 
 void HistoryWidget::Open() 
@@ -61,6 +77,8 @@ void HistoryWidget::Close()
 void HistoryWidget::SyncWidth() 
 {
 	const auto parent_height = parentWidget()->height();
+
+	setMaximumWidth(parentWidget()->width());
 
 	setGeometry(0, m_is_open ? parent_height - kHeight : parent_height, parentWidget()->width(), kHeight);
 }

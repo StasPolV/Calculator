@@ -20,6 +20,7 @@ signals:
 
 public slots:
 	void ShowResult(double result);
+	void AddHistory(double result);
 	void ShowError(QString error);
 	void SetPrecision(int precision);
 	void ChangeSettingsButtonTheme(QString theme);
@@ -38,4 +39,5 @@ private:
 	KeypadWidget* m_keypad;
 	SettingsWidget* m_settings_widget;
 	HistoryWidget* m_history_widget;
+	QString m_cur_expr;
 };

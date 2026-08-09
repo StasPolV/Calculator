@@ -60,6 +60,11 @@ void CalculatorWidget::WireSignals()
             m_history_widget->IsOpen() ? m_history_widget->Close() : m_history_widget->Open();
         });
 
+    connect(this, &CalculatorWidget::EvaluateClicked, this, [this](const std::string& expression) 
+        {
+            m_cur_expr = QString::fromStdString(expression);
+        });
+
     connect(m_display, &DisplayWidget::EvaluateRequested, this, &CalculatorWidget::EvaluateClicked);
 
     connect(m_keypad, &KeypadWidget::DigitPressed, m_display, &DisplayWidget::InsertText);
@@ -77,6 +82,11 @@ void CalculatorWidget::WireSignals()
             m_display->SetText(wrapped);
             emit EvaluateClicked(wrapped.toStdString());
         });
+}
+
+void CalculatorWidget::AddHistory(double result) 
+{
+    m_history_widget->AddHistory(QString("%1 = %2").arg(m_cur_expr).arg(result));
 }
 
 void CalculatorWidget::ShowResult(double result)
