@@ -4,6 +4,8 @@
 
 A desktop calculator built with C++20 and Qt6 (Widgets), featuring a custom expression parser, calculation history, and a configurable UI. Built with an MVC architecture.
 
+Cross-platform: builds and runs on Windows, Linux, and macOS — the codebase has no platform-specific code, relying only on Qt6 and CMake.
+
 ## Features
 
 - Standard operations: `+ - * /`, parentheses, unary minus
