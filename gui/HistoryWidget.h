@@ -9,6 +9,10 @@ class QVBoxLayout;
 class HistoryWidget : public QWidget 
 {
 	Q_OBJECT
+
+signals:
+	void HistoryButtonClicked(QString result);
+
 public:
 	explicit HistoryWidget(QWidget* parent = nullptr);
 

@@ -40,6 +40,13 @@ void HistoryWidget::AddHistory(QString full_expression)
 
 	m_container_layout->addWidget(history_button);
 	m_container_layout->setAlignment(Qt::AlignTop);
+
+	connect(history_button, &QPushButton::clicked, this, [this, full_expression]()
+		{
+			int index = full_expression.indexOf("= ");
+			QString result = full_expression.mid(index + 2);
+			emit HistoryButtonClicked(result);
+		});
 }
 
 void HistoryWidget::Open() 

@@ -82,6 +82,11 @@ void CalculatorWidget::WireSignals()
             m_display->SetText(wrapped);
             emit EvaluateClicked(wrapped.toStdString());
         });
+
+    connect(m_history_widget, &HistoryWidget::HistoryButtonClicked, this, [this](QString result)
+        {
+            ShowResult(result.toDouble());
+        });
 }
 
 void CalculatorWidget::AddHistory(double result) 
