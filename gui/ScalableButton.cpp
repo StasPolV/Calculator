@@ -38,3 +38,13 @@ void ScalableButton::UpdateFont()
 	current_font.setPixelSize(pixel_size);
 	setFont(current_font);
 }
+
+void ScalableButton::changeEvent(QEvent* event)
+{
+	QPushButton::changeEvent(event);
+
+	if (event->type() == QEvent::StyleChange)
+	{
+		UpdateFont();
+	}
+}

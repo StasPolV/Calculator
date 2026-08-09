@@ -1,19 +1,16 @@
 #include "DisplayWidget.h"
+#include "ScalableLineEdit.h"
 #include "utils.h"
 
-#include <QLineEdit>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QRegularExpressionValidator>
 #include <QFile>
 #include <QStyle>
-#include <QResizeEvent>
-
-#include <algorithm>
 
 DisplayWidget::DisplayWidget(QWidget* parent) : QWidget(parent)
 {
-    m_line_edit = new QLineEdit(this);
+    m_line_edit = new ScalableLineEdit(this);
     m_line_edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(m_line_edit, &QLineEdit::returnPressed, this, [this]()
         {
@@ -39,7 +36,7 @@ void DisplayWidget::InsertText(const QString& text)
     m_line_edit->insert(text);
 }
 
-void DisplayWidget::SetPrecision(int precision) 
+void DisplayWidget::SetPrecision(int precision)
 {
     m_precision = precision;
 }
@@ -88,13 +85,4 @@ void DisplayWidget::UpdateStyle()
 {
     m_label->style()->unpolish(m_label);
     m_label->style()->polish(m_label);
-}
-
-void DisplayWidget::resizeEvent(QResizeEvent* event)
-{
-    QWidget::resizeEvent(event);
-
-    QFont font = m_line_edit->font();
-    font.setPixelSize(std::max(10, m_line_edit->height() / 2));
-    m_line_edit->setFont(font);
 }

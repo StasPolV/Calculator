@@ -8,6 +8,7 @@ add_library(gui
 	utils.h utils.cpp
 	HistoryWidget.h HistoryWidget.cpp
 	ScalableButton.h ScalableButton.cpp
+	ScalableLineEdit.h ScalableLineEdit.cpp
 )
 
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

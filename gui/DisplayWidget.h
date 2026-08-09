@@ -5,7 +5,7 @@
 
 #include <string>
 
-class QLineEdit;
+class ScalableLineEdit;
 class QLabel;
 
 class DisplayWidget : public QWidget
@@ -28,14 +28,11 @@ public:
 	QString Text() const;
 	void Clear();
 
-protected:
-	void resizeEvent(QResizeEvent* event) override;
-
 private:
 	void UpdateStyle();
 	void ResetErrorStyle();
 
-	QLineEdit* m_line_edit;
+	ScalableLineEdit* m_line_edit;
 	QLabel* m_label;
 	int m_precision = 2;
 };

@@ -17,6 +17,7 @@ public:
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;
+	void changeEvent(QEvent* event) override;
 
 private:
 	void UpdateFont();
