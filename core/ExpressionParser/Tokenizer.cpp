@@ -68,6 +68,7 @@ void Tokenizer::Tokenize(const std::string& expression)
 			case '/': m_tokens.emplace_back(TokenType::DIVISION, std::string(1, symbol)); break;
 			case '^': m_tokens.emplace_back(TokenType::POWER, std::string(1, symbol)); break;
 			case ' ': break;
+			default: throw ExpressionError("Unknown symbol '" + std::string(1, symbol) + "'");
 			}
 		}
 	}

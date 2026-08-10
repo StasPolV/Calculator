@@ -6,12 +6,12 @@
 
 double Evaluator::GetResult() const
 {
-	return result;
+	return m_result;
 }
 
 void Evaluator::Evaluate(std::unique_ptr<Node> ast_root)
 {
-	result = EvaluateHelper(ast_root.get());
+	m_result = EvaluateHelper(ast_root.get());
 }
 
 double Evaluator::EvaluateHelper(Node* cur_node)

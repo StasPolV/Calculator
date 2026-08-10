@@ -11,5 +11,5 @@ public:
 private:
 	double EvaluateHelper(Node* cur_node);
 
-	double result = 0;
+	double m_result = 0;
 };

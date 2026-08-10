@@ -1,0 +1,30 @@
+Checks: '-*,bugprone-*,clang-analyzer-*,misc-*,performance-*,readability-*,portability-*,concurrency-*,-misc-include-cleaner,-misc-no-recursion, -readability-magic-numbers'
+WarningsAsErrors: 'bugprone-*,clang-analyzer-*'
+HeaderFilterRegex: '(controller|core|gui)/.*\.h$'
+CheckOptions:
+  readability-identifier-naming.FunctionCase: camelBack
+  readability-identifier-naming.MethodCase: CamelCase
+
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: UPPER_CASE
+
+  readability-identifier-naming.PrivateMemberCase: lower_case
+  readability-identifier-naming.PrivateMemberPrefix: 'm_'
+  readability-identifier-naming.ProtectedMemberCase: lower_case
+  readability-identifier-naming.ProtectedMemberPrefix: 'm_'
+  readability-identifier-naming.PublicMemberCase: lower_case
+
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.LocalVariableCase: lower_case
+  readability-identifier-naming.LocalConstantCase: lower_case
+
+  readability-identifier-naming.GlobalConstantCase: CamelCase
+  readability-identifier-naming.GlobalConstantPrefix: 'k'
+
+  readability-identifier-naming.NamespaceCase: lower_case
+  
+  bugprone-easily-swappable-parameters.IgnoredParameterNames: 'from;to'
+FormatStyle: file
+InheritParentConfig: false
