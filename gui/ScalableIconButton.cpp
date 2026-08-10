@@ -56,9 +56,8 @@ void ScalableIconButton::UpdateIcon()
 	}
 
 	const qreal dpr = devicePixelRatioF();
-	QPixmap scaled = m_source.scaled(icon_size * dpr,
-		Qt::KeepAspectRatio,
-		Qt::SmoothTransformation);
+	QPixmap scaled =
+	        m_source.scaled(icon_size * dpr, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	scaled.setDevicePixelRatio(dpr);
 
 	setIconSize(icon_size);

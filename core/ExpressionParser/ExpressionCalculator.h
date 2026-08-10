@@ -1,25 +1,25 @@
 #pragma once
 
-#include "Tokenizer.h"
-#include "Parser.h"
 #include "Evaluator.h"
+#include "Parser.h"
+#include "Tokenizer.h"
 
 #include <string>
 
-class ExpressionCalculator 
+class ExpressionCalculator
 {
 public:
-    double Evaluate(const std::string& expression) 
-    {
-        Tokenizer tokenizer;
-        tokenizer.Tokenize(expression);
+	double Evaluate(const std::string& expression)
+	{
+		Tokenizer tokenizer;
+		tokenizer.Tokenize(expression);
 
-        Parser parser;
-        parser.Parse(tokenizer.GetTokens());
+		Parser parser;
+		parser.Parse(tokenizer.GetTokens());
 
-        Evaluator evaluator;
-        evaluator.Evaluate(parser.GetAstRoot());
+		Evaluator evaluator;
+		evaluator.Evaluate(parser.GetAstRoot());
 
-        return evaluator.GetResult();
-    }
+		return evaluator.GetResult();
+	}
 };

@@ -5,12 +5,11 @@
 #include "SettingsModel.h"
 #include "SettingsWidget.h"
 
-
 #include <QApplication>
 #include <QObject>
 #include <QString>
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
 	QApplication::setOrganizationName("J3n1xCorporation");
 	QApplication::setApplicationName("Qt-Calculator");
@@ -25,8 +24,10 @@ int main(int argc, char* argv[])
 	CalculatorWidget view(settings_view);
 	CalculatorController calculator_controller(model, view);
 
-	QObject::connect(&settings_model, &SettingsModel::PrecisionChanged, &view, &CalculatorWidget::SetPrecision);
-	QObject::connect(&settings_model, &SettingsModel::ThemeChanged, &view, &CalculatorWidget::ChangeSettingsButtonTheme);
+	QObject::connect(&settings_model, &SettingsModel::PrecisionChanged, &view,
+	                 &CalculatorWidget::SetPrecision);
+	QObject::connect(&settings_model, &SettingsModel::ThemeChanged, &view,
+	                 &CalculatorWidget::ChangeSettingsButtonTheme);
 	view.SetPrecision(settings_model.GetPrecision());
 	view.ChangeSettingsButtonTheme(settings_model.GetTheme());
 

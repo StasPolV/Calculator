@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QWidget>
 #include <QString>
+#include <QWidget>
 
 class QPropertyAnimation;
 class QVBoxLayout;
 
-class HistoryWidget : public QWidget 
+class HistoryWidget : public QWidget
 {
 	Q_OBJECT
 
@@ -23,6 +23,7 @@ public:
 	void SyncWidth();
 
 	bool IsOpen() const;
+
 private:
 	QPropertyAnimation* Animate(QRect from, QRect to);
 

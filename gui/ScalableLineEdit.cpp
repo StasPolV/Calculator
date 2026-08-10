@@ -5,9 +5,7 @@
 
 #include <algorithm>
 
-ScalableLineEdit::ScalableLineEdit(QWidget* parent) : QLineEdit(parent)
-{
-}
+ScalableLineEdit::ScalableLineEdit(QWidget* parent) : QLineEdit(parent) {}
 
 void ScalableLineEdit::SetFontRatio(double ratio)
 {

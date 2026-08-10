@@ -5,13 +5,9 @@
 
 #include <algorithm>
 
-ScalableButton::ScalableButton(QWidget* parent) : QPushButton(parent)
-{
-}
+ScalableButton::ScalableButton(QWidget* parent) : QPushButton(parent) {}
 
-ScalableButton::ScalableButton(QString text, QWidget* parent) : QPushButton(text, parent)
-{
-}
+ScalableButton::ScalableButton(QString text, QWidget* parent) : QPushButton(text, parent) {}
 
 void ScalableButton::SetFontRatio(double ratio)
 {
@@ -27,7 +23,8 @@ void ScalableButton::resizeEvent(QResizeEvent* event)
 
 void ScalableButton::UpdateFont()
 {
-	const int pixel_size = std::max(1, static_cast<int>(std::min(width(), height()) * m_font_ratio));
+	const int pixel_size =
+	        std::max(1, static_cast<int>(std::min(width(), height()) * m_font_ratio));
 
 	QFont current_font = font();
 	if (current_font.pixelSize() == pixel_size)

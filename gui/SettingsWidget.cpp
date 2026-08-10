@@ -1,20 +1,20 @@
 #include "SettingsWidget.h"
 
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QComboBox>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QSlider>
 #include <QSpinBox>
+#include <QVBoxLayout>
 
 #include <algorithm>
 
-namespace 
+namespace
 {
 	constexpr int kWidth = 320;
 }
 
-SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent) 
+SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 {
 	setFixedWidth(kWidth);
 
@@ -53,7 +53,7 @@ SettingsWidget::SettingsWidget(QWidget* parent) : QWidget(parent)
 	connect(m_combo_box, &QComboBox::currentTextChanged, this, &SettingsWidget::ThemeChanged);
 }
 
-void SettingsWidget::SetPrecision(int precision) 
+void SettingsWidget::SetPrecision(int precision)
 {
 	const QSignalBlocker blocker_spin(m_precision_spin_box);
 	const QSignalBlocker blocker_slider(m_precision_slider);
@@ -62,16 +62,16 @@ void SettingsWidget::SetPrecision(int precision)
 	m_precision_slider->setValue(precision);
 }
 
-void SettingsWidget::SetTheme(QString theme) 
+void SettingsWidget::SetTheme(QString theme)
 {
 	const QSignalBlocker blocker_theme(m_combo_box);
 
 	m_combo_box->setCurrentText(theme);
 }
 
-void SettingsWidget::Open() 
+void SettingsWidget::Open()
 {
-	if (m_is_open) 
+	if (m_is_open)
 	{
 		return;
 	}
@@ -87,9 +87,9 @@ void SettingsWidget::Open()
 	Animate(closed, opened);
 }
 
-void SettingsWidget::Close() 
+void SettingsWidget::Close()
 {
-	if (!m_is_open) 
+	if (!m_is_open)
 	{
 		return;
 	}
@@ -100,12 +100,12 @@ void SettingsWidget::Close()
 	connect(anim, &QPropertyAnimation::finished, this, &SettingsWidget::hide);
 }
 
-void SettingsWidget::SyncHeight() 
+void SettingsWidget::SyncHeight()
 {
 	setGeometry(m_is_open ? 0 : -kWidth, 0, kWidth, parentWidget()->height());
 }
 
-QPropertyAnimation* SettingsWidget::Animate(QRect from, QRect to) 
+QPropertyAnimation* SettingsWidget::Animate(QRect from, QRect to)
 {
 	auto* anim = new QPropertyAnimation(this, "geometry", this);
 	anim->setDuration(200);

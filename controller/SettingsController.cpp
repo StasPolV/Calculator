@@ -1,12 +1,13 @@
 #include "SettingsController.h"
+
 #include "utils.h"
 
 #include <QApplication>
 #include <QString>
 
-namespace 
+namespace
 {
-	void setTheme(QString theme) 
+	void setTheme(QString theme)
 	{
 		if (theme == "Dark")
 		{
@@ -17,9 +18,10 @@ namespace
 			qApp->setStyleSheet(utils::loadStyleSheet(":/styles/theme_light.qss"));
 		}
 	}
-}
+}  // namespace
 
-SettingsController::SettingsController(SettingsModel& model, SettingsWidget& view, QObject* parent) : QObject(parent), m_model(model), m_view(view)
+SettingsController::SettingsController(SettingsModel& model, SettingsWidget& view, QObject* parent)
+    : QObject(parent), m_model(model), m_view(view)
 {
 	connect(&m_view, &SettingsWidget::PrecisionChanged, &m_model, &SettingsModel::SetPrecision);
 	connect(&m_view, &SettingsWidget::ThemeChanged, &m_model, &SettingsModel::SetTheme);
@@ -30,9 +32,6 @@ SettingsController::SettingsController(SettingsModel& model, SettingsWidget& vie
 	QString theme = m_model.GetTheme();
 	setTheme(theme);
 
-
-	connect(&m_model, &SettingsModel::ThemeChanged, this, [this](QString theme) 
-		{
-			setTheme(theme);
-		});
+	connect(&m_model, &SettingsModel::ThemeChanged, this,
+	        [this](QString theme) { setTheme(theme); });
 }

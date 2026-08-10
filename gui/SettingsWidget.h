@@ -1,15 +1,15 @@
 #pragma once
 
-#include <QWidget>
-#include <QResizeEvent>
 #include <QPropertyAnimation>
+#include <QResizeEvent>
+#include <QWidget>
 
 class QSpinBox;
 class QSlider;
 class QSpinBox;
 class QComboBox;
 
-class SettingsWidget : public QWidget 
+class SettingsWidget : public QWidget
 {
 	Q_OBJECT
 

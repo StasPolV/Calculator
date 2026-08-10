@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QString>
 #include <QFile>
+#include <QString>
 
-namespace utils 
+namespace utils
 {
-    QString loadStyleSheet(QString resource_path);
+	QString loadStyleSheet(QString resource_path);
 }

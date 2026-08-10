@@ -1,4 +1,5 @@
 #include "Parser.h"
+
 #include "ExpressionError.h"
 
 std::unique_ptr<Node> Parser::GetAstRoot()
@@ -24,7 +25,8 @@ void Parser::Parse(const std::vector<Token>& tokens)
 
 	if (!IsAtEnd(tokens) && Peek(tokens).type != TokenType::END_OF_LINE)
 	{
-		throw ExpressionError("Unexpected token '" + Peek(tokens).value + "' after end of expression");
+		throw ExpressionError("Unexpected token '" + Peek(tokens).value +
+		                      "' after end of expression");
 	}
 }
 
@@ -32,7 +34,8 @@ std::unique_ptr<Node> Parser::ParseAdditive(const std::vector<Token>& tokens)
 {
 	std::unique_ptr<Node> left = ParseMultiplication(tokens);
 
-	while (!IsAtEnd(tokens) && (Peek(tokens).type == TokenType::PLUS || Peek(tokens).type == TokenType::MINUS))
+	while (!IsAtEnd(tokens) &&
+	       (Peek(tokens).type == TokenType::PLUS || Peek(tokens).type == TokenType::MINUS))
 	{
 		TokenType op = Peek(tokens).type;
 		++m_index;
@@ -54,7 +57,9 @@ std::unique_ptr<Node> Parser::ParseMultiplication(const std::vector<Token>& toke
 {
 	std::unique_ptr<Node> left = ParseUnary(tokens);
 
-	while (!IsAtEnd(tokens) && (Peek(tokens).type == TokenType::MULTIPLICATION || Peek(tokens).type == TokenType::DIVISION))
+	while (!IsAtEnd(tokens) &&
+	       (Peek(tokens).type == TokenType::MULTIPLICATION ||
+	        Peek(tokens).type == TokenType::DIVISION))
 	{
 		TokenType op = Peek(tokens).type;
 		++m_index;

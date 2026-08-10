@@ -32,31 +32,19 @@ double Evaluator::EvaluateHelper(Node* cur_node)
 
 	switch (cur_node->type)
 	{
-	case TokenType::MULTIPLICATION:
-		sum = left * right;
-		break;
+	case TokenType::MULTIPLICATION: sum = left * right; break;
 	case TokenType::DIVISION:
-		if (right == 0) 
+		if (right == 0)
 		{
 			throw ExpressionError("Zero Division Error");
 		}
 		sum = left / right;
 		break;
-	case TokenType::MINUS:
-		sum = left - right;
-		break;
-	case TokenType::PLUS:
-		sum = left + right;
-		break;
-	case TokenType::UNARY_MINUS:
-		sum = -right;
-		break;
-	case TokenType::POWER:
-		sum = std::pow(left, right);
-		break;
-	case TokenType::SQRT:
-		sum = std::sqrt(right);
-		break;
+	case TokenType::MINUS: sum = left - right; break;
+	case TokenType::PLUS: sum = left + right; break;
+	case TokenType::UNARY_MINUS: sum = -right; break;
+	case TokenType::POWER: sum = std::pow(left, right); break;
+	case TokenType::SQRT: sum = std::sqrt(right); break;
 	}
 
 	return sum;

@@ -5,7 +5,7 @@
 
 #include <string>
 
-class CalculatorModel : public QObject 
+class CalculatorModel : public QObject
 {
 	Q_OBJECT
 

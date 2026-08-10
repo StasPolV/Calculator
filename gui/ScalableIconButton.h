@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QToolButton>
 #include <QPixmap>
 #include <QSize>
 #include <QString>
+#include <QToolButton>
 
 class QResizeEvent;
 

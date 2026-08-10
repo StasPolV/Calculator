@@ -1,19 +1,19 @@
 #pragma once
 
-#include <string>
-
 #include <QObject>
 #include <QSettings>
 
+#include <string>
+
 class QString;
 
-enum Theme 
+enum Theme
 {
 	DARK,
 	WHITE,
 };
 
-class SettingsModel : public QObject 
+class SettingsModel : public QObject
 {
 	Q_OBJECT
 
@@ -28,20 +28,16 @@ public slots:
 public:
 	explicit SettingsModel(QObject* parent = nullptr);
 
-	int GetPrecision() const { return m_precision;  }
-	QString GetTheme() const 
+	int GetPrecision() const { return m_precision; }
+	QString GetTheme() const
 	{
 		switch (m_theme)
 		{
-		case Theme::DARK:
-			return "Dark";
-			break;
-		case Theme::WHITE:
-			return "White";
-			break;
+		case Theme::DARK: return "Dark"; break;
+		case Theme::WHITE: return "White"; break;
 		}
 
-		return "None"; // TODO: add handling
+		return "None";  // TODO: add handling
 	}
 
 private:
