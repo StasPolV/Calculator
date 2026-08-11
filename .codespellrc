@@ -1,0 +1,3 @@
+[codespell]
+skip = *.qrc,*.svg,build
+count =

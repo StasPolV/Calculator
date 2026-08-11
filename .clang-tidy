@@ -24,9 +24,9 @@ CheckOptions:
   readability-identifier-naming.GlobalConstantPrefix: 'k'
 
   readability-identifier-naming.NamespaceCase: lower_case
-  
+
   bugprone-easily-swappable-parameters.IgnoredParameterNames: 'from;to'
-  
+
   performance-unnecessary-value-param.AllowedType: '^Q[A-Z]\w*$'
 FormatStyle: file
 InheritParentConfig: false

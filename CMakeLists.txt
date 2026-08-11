@@ -12,15 +12,16 @@ qt_standard_project_setup()
 
 option(BUILD_TESTING "Build unit tests" ON)
 
-if (BUILD_TESTING)
-    enable_testing()
-    include(FetchContent)
-    FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
-    )
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(googletest)
+if(BUILD_TESTING)
+  enable_testing()
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip)
+  set(gtest_force_shared_crt # cmake-lint: disable=C0103
+      ON
+      CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
 endif()
 
 add_subdirectory(core/ExpressionParser)
@@ -31,8 +32,4 @@ add_subdirectory(controller)
 
 qt_add_executable(Calculator core/main.cpp resources/resources.qrc)
 
-target_link_libraries(Calculator PRIVATE
-    controllers
-    Qt6::Core
-    Qt6::Widgets
-)
+target_link_libraries(Calculator PRIVATE controllers Qt6::Core Qt6::Widgets)

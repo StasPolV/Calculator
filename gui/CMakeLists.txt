@@ -1,15 +1,25 @@
-add_library(gui
-    CalculatorWidget.h CalculatorWidget.cpp
-    DisplayWidget.h DisplayWidget.cpp
-    KeypadWidget.h KeypadWidget.cpp
-    TopBarWidget.h TopBarWidget.cpp
-    SettingsWidget.h SettingsWidget.cpp
-    ScalableIconButton.h ScalableIconButton.cpp
-	utils.h utils.cpp
-	HistoryWidget.h HistoryWidget.cpp
-	ScalableButton.h ScalableButton.cpp
-	ScalableLineEdit.h ScalableLineEdit.cpp
-)
+add_library(
+  gui
+  CalculatorWidget.h
+  CalculatorWidget.cpp
+  DisplayWidget.h
+  DisplayWidget.cpp
+  KeypadWidget.h
+  KeypadWidget.cpp
+  TopBarWidget.h
+  TopBarWidget.cpp
+  SettingsWidget.h
+  SettingsWidget.cpp
+  ScalableIconButton.h
+  ScalableIconButton.cpp
+  utils.h
+  utils.cpp
+  HistoryWidget.h
+  HistoryWidget.cpp
+  ScalableButton.h
+  ScalableButton.cpp
+  ScalableLineEdit.h
+  ScalableLineEdit.cpp)
 
 target_include_directories(gui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
