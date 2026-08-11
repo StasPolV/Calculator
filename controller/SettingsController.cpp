@@ -29,7 +29,7 @@ SettingsController::SettingsController(SettingsModel& model, SettingsWidget& vie
 	m_view.SetPrecision(m_model.GetPrecision());
 	m_view.SetTheme(m_model.GetTheme());
 
-	QString theme = m_model.GetTheme();
+	const QString theme = m_model.GetTheme();
 	setTheme(theme);
 
 	connect(&m_model, &SettingsModel::ThemeChanged, this,

@@ -12,8 +12,7 @@ void CalculatorModel::Evaluate()
 {
 	try
 	{
-		ExpressionCalculator expr_calc;
-		double result = expr_calc.Evaluate(m_expression);
+		const double result = ExpressionCalculator::Evaluate(m_expression);
 		emit Evaluated(result);
 	}
 	catch (const ExpressionError& e)

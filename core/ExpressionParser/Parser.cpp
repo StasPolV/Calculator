@@ -37,7 +37,7 @@ std::unique_ptr<Node> Parser::ParseAdditive(const std::vector<Token>& tokens)
 	while (!IsAtEnd(tokens) &&
 	       (Peek(tokens).type == TokenType::PLUS || Peek(tokens).type == TokenType::MINUS))
 	{
-		TokenType op = Peek(tokens).type;
+		const TokenType op = Peek(tokens).type;
 		++m_index;
 
 		std::unique_ptr<Node> right = ParseMultiplication(tokens);
@@ -61,7 +61,7 @@ std::unique_ptr<Node> Parser::ParseMultiplication(const std::vector<Token>& toke
 	       (Peek(tokens).type == TokenType::MULTIPLICATION ||
 	        Peek(tokens).type == TokenType::DIVISION))
 	{
-		TokenType op = Peek(tokens).type;
+		const TokenType op = Peek(tokens).type;
 		++m_index;
 
 		std::unique_ptr<Node> right = ParseUnary(tokens);

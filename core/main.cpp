@@ -14,15 +14,15 @@ int main(int argc, char* argv[])
 	QApplication::setOrganizationName("J3n1xCorporation");
 	QApplication::setApplicationName("Qt-Calculator");
 
-	QApplication app(argc, argv);
+	const QApplication app(argc, argv);
 
 	SettingsWidget* settings_view = new SettingsWidget;
 	SettingsModel settings_model;
-	SettingsController settings_controller(settings_model, *settings_view);
+	const SettingsController settings_controller(settings_model, *settings_view);
 
 	CalculatorModel model;
 	CalculatorWidget view(settings_view);
-	CalculatorController calculator_controller(model, view);
+	const CalculatorController calculator_controller(model, view);
 
 	QObject::connect(&settings_model, &SettingsModel::PrecisionChanged, &view,
 	                 &CalculatorWidget::SetPrecision);
