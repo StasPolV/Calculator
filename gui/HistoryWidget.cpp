@@ -46,8 +46,8 @@ void HistoryWidget::AddHistory(QString full_expression)
 	connect(history_button, &ScalableButton::clicked, this,
 	        [this, full_expression]()
 	        {
-		        qsizetype index = full_expression.indexOf("= ");
-		        QString result = full_expression.mid(index + 2);
+		        const qsizetype index = full_expression.indexOf("= ");
+		        const QString result = full_expression.mid(index + 2);
 		        emit HistoryButtonClicked(result);
 	        });
 }

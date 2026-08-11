@@ -3,11 +3,12 @@
 #include <QObject>
 #include <QSettings>
 
+#include <cstdint>
 #include <string>
 
 class QString;
 
-enum Theme
+enum Theme : std::uint8_t
 {
 	DARK,
 	WHITE,

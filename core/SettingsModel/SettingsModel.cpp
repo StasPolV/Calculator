@@ -3,7 +3,7 @@
 SettingsModel::SettingsModel(QObject* parent) : QObject(parent)
 {
 	m_precision = m_settings.value("precision", 2).toInt();
-	QString theme = m_settings.value("theme", "Dark").toString();
+	const QString theme = m_settings.value("theme", "Dark").toString();
 	m_theme = (theme == "Dark") ? Theme::DARK : Theme::WHITE;
 }
 

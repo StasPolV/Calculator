@@ -25,8 +25,8 @@ double Evaluator::EvaluateHelper(Node* cur_node)
 		return cur_node->value;
 	}
 
-	double left = EvaluateHelper(cur_node->left.get());
-	double right = EvaluateHelper(cur_node->right.get());
+	const double left = EvaluateHelper(cur_node->left.get());
+	const double right = EvaluateHelper(cur_node->right.get());
 
 	double sum = 0;
 
